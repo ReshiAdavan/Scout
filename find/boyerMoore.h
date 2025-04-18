@@ -85,7 +85,7 @@ public:
             }
 
             if (j < 0) {
-                return s; // Match found
+                return s;
             } else {
                 int badCharShift = std::max(1, j - badCharTable.at(text[s + j]));
                 int goodSuffixShift = goodSuffixTable[j];
@@ -111,7 +111,7 @@ public:
 
             if (j < 0) {
                 positions.push_back(s);
-                s += goodSuffixTable[0];  // Shift after match
+                s += goodSuffixTable[0]; // Shift after match
             } else {
                 int badCharShift = std::max(1, j - badCharTable.at(text[s + j]));
                 int goodSuffixShift = goodSuffixTable[j];
@@ -123,4 +123,4 @@ public:
     }
 };
 
-#endif // BOYERMOORE_H
+#endif

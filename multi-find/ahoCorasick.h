@@ -12,7 +12,7 @@ private:
     struct Node {
         std::unordered_map<char, Node*> children;
         Node* fail = nullptr;
-        std::vector<std::string> output;  // matched keywords at this node
+        std::vector<std::string> output;
     };
 
     Node* root;
@@ -33,7 +33,6 @@ public:
         cleanup(root);
     }
 
-    // Add a single keyword into the trie
     void addKeyword(const std::string& keyword) {
         Node* node = root;
         for (char ch : keyword) {
@@ -46,23 +45,22 @@ public:
         insertedKeywords.push_back(keyword);
     }
 
-    // Expose inserted keywords (e.g., for color mapping)
     const std::vector<std::string>& getKeywords() const {
         return insertedKeywords;
     }
 
-    // Build failure links for the trie
+    // Failure links
     void build() {
         std::queue<Node*> q;
         root->fail = root;
 
-        // Set level 1 fail links to root
+        // Level 1 fail links
         for (auto& [ch, node] : root->children) {
             node->fail = root;
             q.push(node);
         }
 
-        // BFS through the trie
+        // BFS trie
         while (!q.empty()) {
             Node* current = q.front(); q.pop();
 
@@ -88,7 +86,7 @@ public:
         }
     }
 
-    // Search for matches in the given text, return (position, matched word) pairs
+    // Search, return (position, matched word)
     std::vector<std::pair<size_t, std::string>> search(const std::string& text) const {
         std::vector<std::pair<size_t, std::string>> results;
         Node* node = root;
@@ -113,4 +111,4 @@ public:
     }
 };
 
-#endif // AHOCORASICK_H
+#endif

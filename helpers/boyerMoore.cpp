@@ -20,21 +20,6 @@ void searchFile(const std::string& filename, const std::string& searchPattern) {
     // line-by-line search
     while (std::getline(file, line)) {
         lineNumber++;
-        
-        // Debug output for lines that should contain our pattern
-        // if (line.find("surprise") != std::string::npos) {
-        //     std::cout << "Found 'surprise' in line " << lineNumber 
-        //               << " with standard string search" << std::endl;
-        //     std::cout << "Line length: " << line.length() << std::endl;
-        //     std::cout << "Full line: \"" << line << "\"" << std::endl;
-            
-        //     // Print the last few characters to check for invisible characters
-        //     for (size_t i = line.length() > 10 ? line.length() - 10 : 0; i < line.length(); i++) {
-        //         std::cout << "Char at pos " << i << ": '" << line[i] 
-        //                   << "' (ASCII: " << static_cast<int>(line[i]) << ")" << std::endl;
-        //     }
-        // }
-        
         std::vector<size_t> positions = bm.findAll(line);
         for (size_t pos : positions) {
             // Determine how much context to show before and after the match

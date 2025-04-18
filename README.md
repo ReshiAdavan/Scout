@@ -14,9 +14,10 @@ lil side project for implementing:
 ## deep dive
 
 keyword search
-- "boyer-moore" on file specified to find instances where keywords exists
-- replace tbd
-- for large files we want to load as chunks, deal with words over chunks somehow
+- [X] "boyer-moore" on file specified to find instances where keywords exists
+- [ ] read file into chunks
+- [ ] deploy worker threads and run boyer moore in parallel across the file
+- [ ] replace feature (tbd)
 
 multi keyword search
 - "aho-corasick" to determine existence of multiple keywords
@@ -25,4 +26,3 @@ multi keyword search
 
 file search
 - "fuzzy-search" over entire dir
-- 

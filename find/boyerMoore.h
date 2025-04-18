@@ -72,7 +72,7 @@ public:
         preprocessGoodSuffixTable();
     }
 
-    int find(const std::string& text) {
+    int find(const std::string& text) const {
         int m = pattern.length();
         int n = text.length();
         if (m == 0 || m > n) return -1;
@@ -87,7 +87,7 @@ public:
             if (j < 0) {
                 return s; // Match found
             } else {
-                int badCharShift = std::max(1, j - badCharTable[text[s + j]]);
+                int badCharShift = std::max(1, j - badCharTable.at(text[s + j]));
                 int goodSuffixShift = goodSuffixTable[j];
                 s += std::max(badCharShift, goodSuffixShift);
             }
@@ -96,7 +96,7 @@ public:
         return -1;
     }
 
-    std::vector<size_t> findAll(const std::string& text) {
+    std::vector<size_t> findAll(const std::string& text) const {
         std::vector<size_t> positions;
         int m = pattern.length();
         int n = text.length();
@@ -113,7 +113,7 @@ public:
                 positions.push_back(s);
                 s += goodSuffixTable[0];  // Shift after match
             } else {
-                int badCharShift = std::max(1, j - badCharTable[text[s + j]]);
+                int badCharShift = std::max(1, j - badCharTable.at(text[s + j]));
                 int goodSuffixShift = goodSuffixTable[j];
                 s += std::max(badCharShift, goodSuffixShift);
             }

@@ -8,21 +8,26 @@ lil side project for implementing:
 ## setup
 - clone
 - run with 
-    - `clang++ main.cpp -o findr`
+    - `clang++ find.cpp -o find`
+    - `./findr`
+
+- for std::filesystem
+    - `clang++ -std=c++17 -stdlib=libc++ find.cpp -o find`
     - `./findr`
 
 ## deep dive
 
 keyword search
 - [X] "boyer-moore" on file specified to find instances where keywords exists
-- [ ] read file into chunks
-- [ ] deploy worker threads and run boyer moore in parallel across the file
-- [ ] replace feature (tbd)
+- [X] read file into chunks
+- [X] recursively detect presence of keyword across a whole directory
+- [ ] "replace feature"
+- [ ] deploy worker threads and run boyer moore in parallel across the file (tbd)
 
-multi keyword search
-- "aho-corasick" to determine existence of multiple keywords
-- replace tbd
-- for large files we load as chunks, figure out the in b/w
+multi-keyword search
+- [ ] "aho-corasick" to determine existence of multiple keywords
+- [ ] read file into chunks
+- [ ] "replace feature"
 
 file search
-- "fuzzy-search" over entire dir
+- [ ] "fuzzy-search" over entire dir

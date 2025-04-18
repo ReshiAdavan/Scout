@@ -34,5 +34,6 @@
 # Other
 find/*.txt
 find/data/*
-multi-find/data/*
+multifind/data/*
+search/data/*
 .vscode/

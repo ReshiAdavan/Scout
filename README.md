@@ -6,14 +6,15 @@ lil side project for implementing:
 - *multi*-keyword search
 
 ## setup
-- clone
-- run with 
-    - `clang++ find.cpp -o find`
-    - `./findr`
 
-- for std::filesystem
+- clone
+- run find with 
     - `clang++ -std=c++17 -stdlib=libc++ find.cpp -o find`
-    - `./findr`
+    - `./find . Alice`
+
+- run mfind with
+    - `clang++ -std=c++17 -stdlib=libc++ mfind.cpp -o mfind`
+    - `./mfind . "Alice" "library" "book"`
 
 ## deep dive
 

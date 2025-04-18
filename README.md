@@ -19,16 +19,19 @@ lil side project for implementing:
 ## deep dive
 
 keyword search
-- [X] "boyer-moore" on file specified to find instances where keywords exists
-- [X] read file into chunks
-- [X] recursively detect presence of keyword across a whole directory
-- [ ] "replace feature"
-- [ ] deploy worker threads and run boyer moore in parallel across the file (tbd)
+- [X] boyer-moore
 
 multi-keyword search
-- [ ] "aho-corasick" to determine existence of multiple keywords
-- [ ] read file into chunks
-- [ ] "replace feature"
+- [X] aho-corasick
 
 file search
-- [ ] "fuzzy-search" over entire dir
+- [ ] fuzzy-search
+
+replace
+- [ ] boyer-moore replace
+- [ ] aho-corasick replace
+
+general
+- [X] chunking
+- [X] recursive find in directory
+- [ ] parallelization

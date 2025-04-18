@@ -32,4 +32,6 @@
 *.app
 
 # Other
-helpers/*.txt
+find/*.txt
+find/data/*
+.vscode/

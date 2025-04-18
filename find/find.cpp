@@ -2,16 +2,16 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <filesystem>
 #include "boyerMoore.h"
 
-void searchFile(const std::string& filename, const std::string& searchPattern, size_t chunkSize = 8192) {
+void searchFile(const std::string& filename, const BoyerMoore& bm, const std::string& searchPattern, size_t chunkSize = 8192) {
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Error: Could not open file " << filename << std::endl;
         return;
     }
 
-    BoyerMoore bm(searchPattern);
     const size_t overlap = searchPattern.size() - 1;
     std::vector<char> buffer(chunkSize + overlap);
 
@@ -70,15 +70,29 @@ void searchFile(const std::string& filename, const std::string& searchPattern, s
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " <filename> <search_pattern>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <path> <search_pattern>" << std::endl;
         return 1;
     }
 
-    std::string filename = argv[1];
+    std::string path = argv[1];
     std::string pattern = argv[2];
 
-    std::cout << "**Searching for '" << pattern << "' in " << filename << " using chunked read...**\n" << std::endl;
-    searchFile(filename, pattern);
+    const BoyerMoore bm(pattern);
+
+    if (std::filesystem::is_regular_file(path)) {
+        std::cout << "**Searching for '" << pattern << "' in file: " << path << "**\n\n";
+        searchFile(path, bm, pattern);
+    } else if (std::filesystem::is_directory(path)) {
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
+            if (entry.is_regular_file()) {
+                std::cout << "**Searching for '" << pattern << "' in file: " << entry.path() << "**\n\n";
+                searchFile(entry.path().string(), bm, pattern);
+            }
+        }
+    } else {
+        std::cerr << "Error: Path is not a file or directory.\n";
+        return 1;
+    }
 
     return 0;
 }

@@ -12,7 +12,6 @@ inline std::vector<std::string> defaultColors = {
 };
 inline std::string resetColor = "\033[0m";
 
-// Round robin color assignment
 inline std::unordered_map<std::string, std::string> buildColorMap(const std::vector<std::string>& keywords) {
     std::unordered_map<std::string, std::string> map;
     int i = 0;
@@ -21,8 +20,6 @@ inline std::unordered_map<std::string, std::string> buildColorMap(const std::vec
     }
     return map;
 }
-
-auto colorMap = buildColorMap(DEFAULT_COLORS);
 
 inline std::string extractContext(const std::string& text, size_t matchPos, size_t matchLength, size_t contextSize) {
     size_t start = (matchPos > contextSize) ? matchPos - contextSize : 0;

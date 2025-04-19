@@ -9,7 +9,7 @@ lil side project for implementing:
 
 - clone
 - run mfind with
-    - `clang++ -std=c++17 -stdlib=libc++ mfind.cpp -o mfind`
+    - `clang++ -std=c++17 -pthread  mfind.cpp -I. -Iwalkers -Iqueues -Iworkers -Ihelpers -Iaho -o mfind`
     - `./mfind . "Alice" "library" "book"`
 
 ## todos
@@ -17,7 +17,7 @@ lil side project for implementing:
 multifind
 - [X] aho-corasick
 - [ ] case-insensitive match
-- [ ] grouped color-coded output
+- [X] grouped color-coded output
 - [ ] keyword tagging or ID support
 - [ ] longest match / all match priority toggle
 - [ ] match stats per file/keyword
@@ -27,7 +27,9 @@ multifind
 general
 - [X] chunking
 - [X] recursive find in directory
-- [ ] parallelization (file-level threading)
+- [X] parallelization
+    - [X] file-level threading
+    - [ ] chunk-level threading
 - [ ] extension filters (e.g., `.txt`, `.cpp`)
 - [ ] ignore rules support (`.gitignore`)
 - [ ] cache file hashes to skip unchanged files
@@ -47,8 +49,7 @@ queues/	    Holds concurrent fileQueue + matchQueue impls
 workers/	Thread pool to pop files, run searchFile() using Aho-Corasick
 output/	    One thread dequeues matches and prints them out
 aho/    	Reusable Aho-Corasick engine
-helpers/	Optional format/context/extension utils
-config/	    Central constants for chunk size, thread count, etc.
+helpers/	Format/context/extension utils
 
 
 ## archive

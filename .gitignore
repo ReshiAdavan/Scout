@@ -32,7 +32,6 @@
 *.app
 
 # Other
-find/data/*
 mfind/data/*
-search/data/*
+mfind/mfind
 .vscode/

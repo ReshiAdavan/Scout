@@ -8,22 +8,11 @@ lil side project for implementing:
 ## setup
 
 - clone
-- run find with 
-    - `clang++ -std=c++17 -stdlib=libc++ find.cpp -o find`
-    - `./find . Alice`
-
 - run mfind with
     - `clang++ -std=c++17 -stdlib=libc++ mfind.cpp -o mfind`
     - `./mfind . "Alice" "library" "book"`
 
 ## todos
-
-find
-- [X] boyer-moore
-- [ ] case-insensitive match
-- [ ] whole-word match
-- [ ] line number tracking
-- [ ] highlight match in context
 
 multifind
 - [X] aho-corasick
@@ -34,6 +23,42 @@ multifind
 - [ ] match stats per file/keyword
 - [ ] export results (e.g. JSON, CSV)
 - [ ] watch mode (live file changes)
+
+general
+- [X] chunking
+- [X] recursive find in directory
+- [ ] parallelization (file-level threading)
+- [ ] extension filters (e.g., `.txt`, `.cpp`)
+- [ ] ignore rules support (`.gitignore`)
+- [ ] cache file hashes to skip unchanged files
+- [ ] in-memory index for very large codebases
+- [ ] LSP-compatible output formatting
+- [ ] plugin system or extensible backend
+
+other
+- [ ] minimal GUI wrapper
+- [ ] serve search via API (search as a service)
+- [ ] git diff aware searching
+
+## structure
+
+walkers/	Spawns walker threads, traverses dirs, pushes files
+queues/	    Holds concurrent fileQueue + matchQueue impls
+workers/	Thread pool to pop files, run searchFile() using Aho-Corasick
+output/	    One thread dequeues matches and prints them out
+aho/    	Reusable Aho-Corasick engine
+helpers/	Optional format/context/extension utils
+config/	    Central constants for chunk size, thread count, etc.
+
+
+## archive
+
+find
+- [X] boyer-moore
+- [ ] case-insensitive match
+- [ ] whole-word match
+- [ ] line number tracking
+- [ ] highlight match in context
 
 search
 - [X] fuzzy-search
@@ -51,19 +76,3 @@ replace
 - [ ] diff-style preview
 - [ ] replace with context
 - [ ] write to temp/backup path
-
-general
-- [X] chunking
-- [X] recursive find in directory
-- [ ] parallelization (file-level threading)
-- [ ] extension filters (e.g., `.txt`, `.cpp`)
-- [ ] ignore rules support (`.gitignore`)
-- [ ] cache file hashes to skip unchanged files
-- [ ] in-memory index for very large codebases
-- [ ] LSP-compatible output formatting
-- [ ] plugin system or extensible backend
-
-other
-- [ ] minimal GUI wrapper
-- [ ] serve search via API (search as a service)
-- [ ] git diff aware searching

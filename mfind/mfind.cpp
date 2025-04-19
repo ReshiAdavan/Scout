@@ -61,7 +61,6 @@ int main(int argc, char* argv[]) {
 
     // Color => Keyword
     auto colorMap = buildColorMap(ac.getKeywords());
-
     auto files = getAllFiles(path);
     for (const auto& file : files) {
         searchFile(file, ac, colorMap);

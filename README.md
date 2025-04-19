@@ -1,8 +1,6 @@
 ## findr
 
 lil side project for implementing:
-- file search in dir
-- keyword search
 - *multi*-keyword search
 
 ## setup
@@ -44,13 +42,12 @@ other
 
 ## structure
 
-walkers/	Spawns walker threads, traverses dirs, pushes files
-queues/	    Holds concurrent fileQueue + matchQueue impls
-workers/	Thread pool to pop files, run searchFile() using Aho-Corasick
-output/	    One thread dequeues matches and prints them out
-aho/    	Reusable Aho-Corasick engine
-helpers/	Format/context/extension utils
-
+- walkers/      Spawns walker threads, traverses dirs, pushes files
+- queues/	    Holds concurrent fileQueue + matchQueue impls
+- workers/	    Thread pool to pop files, run searchFile() using Aho-Corasick
+- output/	    One thread dequeues matches and prints them out
+- aho/    	    Reusable Aho-Corasick engine
+- helpers/	    Format/context/extension utils
 
 ## archive
 

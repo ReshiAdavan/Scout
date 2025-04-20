@@ -110,6 +110,8 @@ int main(int argc, char* argv[]) {
     MatchIndex matchIndex;
     std::mutex matchIndexMutex;
 
+    matchIndex.load(".match_index");
+
     std::cout << "[+] Starting daemon mode. Watching '" << keywordFile << "'...\n";
 
     while (running) {
@@ -139,6 +141,9 @@ int main(int argc, char* argv[]) {
     }
 
     std::cout << "[+] Done.\n";
+    
     cache.save();
+    matchIndex.save(".match_index");
+    
     return 0;
 }

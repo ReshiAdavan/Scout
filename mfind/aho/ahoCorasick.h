@@ -17,6 +17,7 @@ private:
 
     Node* root;
     std::vector<std::string> insertedKeywords;
+    size_t maxPatternLength = 0;
 
 public:
     AhoCorasick() {
@@ -43,10 +44,15 @@ public:
         }
         node->output.push_back(keyword);
         insertedKeywords.push_back(keyword);
+        maxPatternLength = std::max(maxPatternLength, keyword.size());
     }
 
     const std::vector<std::string>& getKeywords() const {
         return insertedKeywords;
+    }
+
+    size_t getMaxPatternLength() const {
+        return maxPatternLength;
     }
 
     // Failure links

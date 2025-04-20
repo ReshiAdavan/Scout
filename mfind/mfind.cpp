@@ -1,15 +1,17 @@
 #include <iostream>
+#include <filesystem>
 #include <fstream>
-#include <string>
 #include <vector>
+#include <string>
 #include <unordered_map>
+#include <algorithm>
+#include "../aho/ahoCorasick.h"
+#include "../helpers/searchHelper.h"
 #include "../helpers/formatHelper.h"
 #include "../helpers/configHelper.h"
-#include "ahoCorasick.h"
 #include "walkers/walker.h"
 #include "queues/fileQueue.h"
 #include "workers/workerPool.h"
-#include "../helpers/searchHelper.h"
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
@@ -44,6 +46,6 @@ int main(int argc, char* argv[]) {
     walker.join();
     fileQueue.setFinished();
     pool.join();
-    
+
     return 0;
 }

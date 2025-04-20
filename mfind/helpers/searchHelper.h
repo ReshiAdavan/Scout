@@ -3,11 +3,14 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
 #include <functional>
 #include "../core/ahoCorasick.h"
 #include "formatHelper.h"
 #include "chunkScanner.h"
+#include "../core/matchIndex.h"
 
+// stream-match to callback
 inline void searchFile(const std::string& filename,
                        const AhoCorasick& ac,
                        std::function<void(const std::string&, size_t, const std::string&, const std::string&)> callback,
@@ -35,13 +38,24 @@ inline void searchFile(const std::string& filename,
         std::string chunk(buffer.data(), total);
 
         ChunkScanner::scan(chunk, ac, [&](size_t pos, const std::string& word, const std::string& context) {
-            callback(filename, pos, word, context);
+            callback(filename, offset + pos, word, context);
         }, offset);
 
         offset += bytesRead;
     }
 
     file.close();
+}
+
+// collect matches for indexing
+inline std::vector<Match> searchFile(const std::string& filename,
+                                     const AhoCorasick& ac,
+                                     size_t chunkSize = 8192) {
+    std::vector<Match> matches;
+    searchFile(filename, ac, [&](const std::string& file, size_t pos, const std::string& word, const std::string& context) {
+        matches.push_back(Match{file, pos, word, context});
+    }, chunkSize);
+    return matches;
 }
 
 #endif

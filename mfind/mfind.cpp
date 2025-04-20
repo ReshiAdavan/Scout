@@ -43,11 +43,8 @@ std::vector<std::string> diffKeywords(const std::vector<std::string>& current, c
     return diff;
 }
 
-void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache,
-                    std::unordered_map<std::string, std::string>& colorMap,
-                    const IgnoreRules& ignore,
-                    bool force = false) {
-
+void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache, std::unordered_map<std::string, std::string>& colorMap,
+        const IgnoreRules& ignore, MatchIndex& matchIndex, std::mutex& matchIndexMutex, bool force = false) {
     FileQueue fileQueue;
     Walker walker(2);
     walker.setFileCallback([&](const std::string& file) {
@@ -60,10 +57,26 @@ void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache,
 
     WorkerPool pool(4, fileQueue, [&](const std::string& file) {
         if (force || cache.isChanged(file)) {
-            searchFile(file, ac, [&](const std::string& file, size_t pos, const std::string& word, const std::string& context) {
-                printMatch(file, pos, word, context, colorMap);
-            });
+            std::cout << "[worker] Scanning (updated): " << file << "\n";
+            auto matches = searchFile(file, ac);
+        
+            for (const auto& match : matches) {
+                printMatch(match.file, match.byteOffset, match.keyword, match.context, colorMap);
+            }
+        
+            {
+                std::lock_guard<std::mutex> lock(matchIndexMutex);
+                matchIndex.updateMatchesForFile(file, matches);
+            }
+        
             cache.update(file);
+        } else {
+            std::cout << "[worker] Cached (unchanged): " << file << "\n";
+            std::lock_guard<std::mutex> lock(matchIndexMutex);
+            const auto& cached = matchIndex.getMatchesForFile(file);
+            for (const auto& match : cached) {
+                printMatch(match.file, match.byteOffset, match.keyword, match.context, colorMap);
+            }
         }
     });
 
@@ -94,6 +107,9 @@ int main(int argc, char* argv[]) {
     std::unordered_set<std::string> knownKeywords;
     std::unordered_map<std::string, std::string> colorMap;
 
+    MatchIndex matchIndex;
+    std::mutex matchIndexMutex;
+
     std::cout << "[+] Starting daemon mode. Watching '" << keywordFile << "'...\n";
 
     while (running) {
@@ -115,7 +131,7 @@ int main(int argc, char* argv[]) {
                 colorMap[word] = defaultColors[colorMap.size() % defaultColors.size()];
             }
 
-            runSearchRound(root, ac, cache, colorMap, ignore, force);
+            runSearchRound(root, ac, cache, colorMap, ignore, matchIndex, matchIndexMutex, force);
             cache.save();
         }
 

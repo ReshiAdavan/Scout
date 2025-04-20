@@ -1,11 +1,15 @@
 #include <iostream>
-#include <filesystem>
 #include <fstream>
+#include <filesystem>
+#include <unordered_set>
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include <algorithm>
-#include "../aho/ahoCorasick.h"
+#include <csignal>
+#include <chrono>
+#include <thread>
+#include "../core/ahoCorasick.h"
+#include "../core/fileCache.h"
 #include "../helpers/searchHelper.h"
 #include "../helpers/formatHelper.h"
 #include "../helpers/configHelper.h"
@@ -13,20 +17,33 @@
 #include "queues/fileQueue.h"
 #include "workers/workerPool.h"
 
-int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <root_dir> <keyword1> [keyword2] ...\n";
-        return 1;
-    }
+std::atomic<bool> running = true;
 
-    std::string root = argv[1];
+void signalHandler(int) {
+    std::cout << "\n[!] Caught signal. Shutting down...\n";
+    running = false;
+}
 
-    AhoCorasick ac;
-    for (int i = 2; i < argc; ++i) {
-        ac.addKeyword(argv[i]);
+std::vector<std::string> loadKeywords(const std::string& path) {
+    std::vector<std::string> result;
+    std::ifstream file(path);
+    std::string line;
+    while (std::getline(file, line)) {
+        if (!line.empty()) result.push_back(line);
     }
-    ac.build();
-    std::unordered_map<std::string, std::string> colorMap = buildColorMap(ac.getKeywords());
+    return result;
+}
+
+std::vector<std::string> diffKeywords(const std::vector<std::string>& current, const std::unordered_set<std::string>& known) {
+    std::vector<std::string> diff;
+    for (const auto& kw : current) {
+        if (!known.count(kw)) diff.push_back(kw);
+    }
+    return diff;
+}
+
+void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache,
+                    std::unordered_map<std::string, std::string>& colorMap) {
 
     FileQueue fileQueue;
     Walker walker(2);
@@ -35,9 +52,12 @@ int main(int argc, char* argv[]) {
     });
 
     WorkerPool pool(4, fileQueue, [&](const std::string& file) {
-        searchFile(file, ac, [&](const std::string& file, size_t pos, const std::string& word, const std::string& context) {
-            printMatch(file, pos, word, context, colorMap);
-        });
+        if (cache.isChanged(file)) {
+            searchFile(file, ac, [&](const std::string& file, size_t pos, const std::string& word, const std::string& context) {
+                printMatch(file, pos, word, context, colorMap);
+            });
+            cache.update(file);
+        }
     });
 
     walker.start(root);
@@ -46,6 +66,51 @@ int main(int argc, char* argv[]) {
     walker.join();
     fileQueue.setFinished();
     pool.join();
+}
 
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cerr << "Usage: " << argv[0] << " <root_dir>\n";
+        return 1;
+    }
+
+    std::signal(SIGINT, signalHandler);
+
+    std::string root = argv[1];
+    std::string keywordFile = "keywords.txt";
+
+    AhoCorasick ac;
+    FileCache cache;
+
+    std::unordered_set<std::string> knownKeywords;
+    std::unordered_map<std::string, std::string> colorMap;
+
+    std::cout << "[+] Starting daemon mode. Watching '" << keywordFile << "'...\n";
+
+    while (running) {
+        auto loaded = loadKeywords(keywordFile);
+        auto newWords = diffKeywords(loaded, knownKeywords);
+
+        if (!newWords.empty()) {
+            std::cout << "[*] Detected " << newWords.size() << " new keyword(s)...\n";
+            for (const auto& w : newWords) {
+                ac.addKeyword(w);
+                knownKeywords.insert(w);
+            }
+            ac.build(); // rebuild fail links
+
+            for (const auto& word : newWords) {
+                colorMap[word] = defaultColors[colorMap.size() % defaultColors.size()];
+            }
+
+            runSearchRound(root, ac, cache, colorMap);
+            cache.save();
+        }
+
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
+
+    std::cout << "[+] Done.\n";
+    cache.save();
     return 0;
 }

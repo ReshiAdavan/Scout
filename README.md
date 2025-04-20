@@ -6,9 +6,10 @@ lil side project for implementing:
 ## setup
 
 - clone
+- populate `keywords.txt` with the keywords you want to query for
 - run mfind with
-    - `clang++ -std=c++17 -pthread  mfind.cpp -I. -Iwalkers -Iqueues -Iworkers -Ihelpers -Iaho -o mfind`
-    - `./mfind . "Alice" "library" "book"`
+    - `clang++ -std=c++17 -pthread  mfind.cpp core/fileCache.cpp -I. -Iwalkers -Iqueues -Iworkers -Ihelpers -Iaho -o mfind`
+    - `./mfind .`
 
 ## todos
 
@@ -20,17 +21,17 @@ multifind
 - [ ] longest match / all match priority toggle
 - [ ] match stats per file/keyword
 - [ ] export results (e.g. JSON, CSV)
-- [ ] watch mode (live file changes)
+- [X] watch mode (live file changes)
 
 general
 - [X] chunking
 - [X] recursive find in directory
 - [X] parallelization
     - [X] file-level threading
-    - [ ] chunk-level threading
+    - [X] chunk-level threading
 - [ ] extension filters (e.g., `.txt`, `.cpp`)
 - [ ] ignore rules support (`.gitignore`)
-- [ ] cache file hashes to skip unchanged files
+- [X] cache file hashes to skip unchanged files
 - [ ] in-memory index for very large codebases
 - [ ] LSP-compatible output formatting
 - [ ] plugin system or extensible backend

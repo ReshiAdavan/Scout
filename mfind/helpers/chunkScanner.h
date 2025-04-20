@@ -7,7 +7,7 @@
 #include <thread>
 #include <future>
 #include <algorithm>
-#include "../aho/ahoCorasick.h"
+#include "../core/ahoCorasick.h"
 #include "formatHelper.h"
 
 class ChunkScanner {

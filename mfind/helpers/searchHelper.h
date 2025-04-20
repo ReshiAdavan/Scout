@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <functional>
-#include "../aho/ahoCorasick.h"
+#include "../core/ahoCorasick.h"
 #include "formatHelper.h"
 #include "chunkScanner.h"
 

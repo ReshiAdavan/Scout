@@ -14,6 +14,26 @@ bool FileCache::isChanged(const std::string& filePath) const {
     }
 }
 
+bool FileCache::hasChangedFiles(const std::string& root, const IgnoreRules& ignore) const {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(root)) {
+        if (!entry.is_regular_file()) continue;
+        std::string path = entry.path().string();
+        if (ignore.shouldIgnore(entry.path())) continue;
+
+        try {
+            auto current = std::filesystem::last_write_time(entry);
+            auto it = timestamps.find(path);
+            if (it == timestamps.end() || it->second != current) {
+                return true; // found >1 changed file
+            }
+        } catch (...) {
+            continue;
+        }
+    }
+    return false;
+}
+
+
 void FileCache::update(const std::string& filePath) {
     try {
         auto current = std::filesystem::last_write_time(filePath);

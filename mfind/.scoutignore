@@ -1,0 +1,23 @@
+# Output + generated
+mfind
+*.out
+*.log
+*.tmp
+
+# Build-related
+build/
+.cache/
+*.o
+*.exe
+
+# IDE
+.vscode/
+.idea/
+
+# Version control
+.git/
+.gitignore
+
+# Internal files
+keywords.txt
+.scoutignore

@@ -13,6 +13,7 @@
 #include "../helpers/searchHelper.h"
 #include "../helpers/formatHelper.h"
 #include "../helpers/configHelper.h"
+#include "../helpers/ignoreRules.h"
 #include "walkers/walker.h"
 #include "queues/fileQueue.h"
 #include "workers/workerPool.h"
@@ -43,16 +44,22 @@ std::vector<std::string> diffKeywords(const std::vector<std::string>& current, c
 }
 
 void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache,
-                    std::unordered_map<std::string, std::string>& colorMap) {
+                    std::unordered_map<std::string, std::string>& colorMap,
+                    const IgnoreRules& ignore,
+                    bool force = false) {
 
     FileQueue fileQueue;
     Walker walker(2);
     walker.setFileCallback([&](const std::string& file) {
+        std::filesystem::path p = file;
+        if (ignore.shouldIgnore(p)) {
+            return;
+        }
         fileQueue.push(file);
     });
 
     WorkerPool pool(4, fileQueue, [&](const std::string& file) {
-        if (cache.isChanged(file)) {
+        if (force || cache.isChanged(file)) {
             searchFile(file, ac, [&](const std::string& file, size_t pos, const std::string& word, const std::string& context) {
                 printMatch(file, pos, word, context, colorMap);
             });
@@ -81,6 +88,8 @@ int main(int argc, char* argv[]) {
 
     AhoCorasick ac;
     FileCache cache;
+    IgnoreRules ignore;
+    ignore.loadFromFile(); // .scoutignore
 
     std::unordered_set<std::string> knownKeywords;
     std::unordered_map<std::string, std::string> colorMap;
@@ -90,8 +99,11 @@ int main(int argc, char* argv[]) {
     while (running) {
         auto loaded = loadKeywords(keywordFile);
         auto newWords = diffKeywords(loaded, knownKeywords);
+        bool keywordSetChanged = !newWords.empty();
+        bool filesChanged = cache.hasChangedFiles(root, ignore);
 
-        if (!newWords.empty()) {
+        if (keywordSetChanged || filesChanged) {
+            bool force = keywordSetChanged;
             std::cout << "[*] Detected " << newWords.size() << " new keyword(s)...\n";
             for (const auto& w : newWords) {
                 ac.addKeyword(w);
@@ -103,7 +115,7 @@ int main(int argc, char* argv[]) {
                 colorMap[word] = defaultColors[colorMap.size() % defaultColors.size()];
             }
 
-            runSearchRound(root, ac, cache, colorMap);
+            runSearchRound(root, ac, cache, colorMap, ignore, force);
             cache.save();
         }
 

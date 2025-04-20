@@ -7,8 +7,9 @@ lil side project for implementing:
 
 - clone
 - populate `keywords.txt` with the keywords you want to query for
+- configure `.scoutignore` with the files you want to omit for search
 - run mfind with
-    - `clang++ -std=c++17 -pthread  mfind.cpp core/fileCache.cpp -I. -Iwalkers -Iqueues -Iworkers -Ihelpers -Iaho -o mfind`
+    - `clang++ -std=c++17 -pthread  mfind.cpp core/fileCache.cpp helpers/ignoreRules.cpp -I. -Iwalkers -Iqueues -Iworkers -Ihelpers -Iaho -o mfind`
     - `./mfind .`
 
 ## todos
@@ -30,7 +31,7 @@ general
     - [X] file-level threading
     - [X] chunk-level threading
 - [ ] extension filters (e.g., `.txt`, `.cpp`)
-- [ ] ignore rules support (`.gitignore`)
+- [X] ignore rules support (`.gitignore`)
 - [X] cache file hashes to skip unchanged files
 - [ ] in-memory index for very large codebases
 - [ ] LSP-compatible output formatting

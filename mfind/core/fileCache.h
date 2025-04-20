@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include "../helpers/ignoreRules.h"
 
 class FileCache {
 private:
@@ -15,6 +16,7 @@ private:
 public:
     FileCache();
     bool isChanged(const std::string& filePath) const;
+    bool hasChangedFiles(const std::string& root, const IgnoreRules& ignore) const;
     void update(const std::string& filePath);
     void load();
     void save() const;

@@ -1,7 +1,6 @@
-## findr
+## scout
 
-lil side project for implementing:
-- *multi*-keyword search
+A highly performanct, recursive multi-keyword search tool that combines Aho-Corasick with an in-memory inverted index, file content caching, and git-diff–style file monitoring for instant, context-rich results across large textual datasets and filesystems.
 
 ## setup
 
@@ -38,8 +37,8 @@ general
 
 ## structure
 
-- walkers/      Spawns walker threads, traverses dirs, pushes files
-- queues/	    Holds concurrent fileQueue + matchQueue impls
-- workers/	    Thread pool to pop files, run searchFile() using Aho-Corasick
-- core/    	    Aho-Corasick engine + file caching + match inverted index 
-- helpers/	    Format/context/extension utils
+- `walkers/`      - Spawns walker threads, traverses dirs, pushes files
+- `queues/`	      - Holds concurrent `fileQueue` + `matchQueue` impls
+- `workers/`      - Thread pool to pop files, run `searchFile()` using Aho-Corasick
+- `core/`    	  - Aho-Corasick engine + file caching + match inverted index
+- `helpers/`	  - Format/context/extension utils

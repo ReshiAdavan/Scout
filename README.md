@@ -1,6 +1,5 @@
 ## scout
-
-A highly performanct, recursive multi-keyword search tool that combines Aho-Corasick with an in-memory inverted index, file content caching, and git-diff–style file monitoring for instant, context-rich results across large textual datasets and filesystems.
+A highly-performant, recursive multi-keyword search tool that uses Aho-Corasick, file-change caching, and inverted indexes for instant, context-rich results across large textual datasets and filesystems.
 
 ## setup
 

@@ -22,9 +22,18 @@ inline std::unordered_map<std::string, std::string> buildColorMap(const std::vec
 }
 
 inline std::string extractContext(const std::string& text, size_t matchPos, size_t matchLength, size_t contextSize) {
-    size_t start = (matchPos > contextSize) ? matchPos - contextSize : 0;
-    size_t end = std::min(matchPos + matchLength + contextSize, text.size());
-    return text.substr(start, end - start);
+    if (text.empty() || matchPos >= text.size()) return "...";
+
+    size_t start = (matchPos >= contextSize) ? (matchPos - contextSize) : 0;
+    size_t end = std::min(text.size(), matchPos + matchLength + contextSize);
+
+    if (start > end || end > text.size()) return "...";
+
+    std::string before = (start < matchPos) ? text.substr(start, matchPos - start) : "";
+    std::string match = text.substr(matchPos, std::min(matchLength, text.size() - matchPos));
+    std::string after = (matchPos + matchLength < end) ? text.substr(matchPos + matchLength, end - (matchPos + matchLength)) : "";
+
+    return "..." + before + match + after + "...";
 }
 
 inline void printMatch(const std::string& filename, size_t byteOffset,

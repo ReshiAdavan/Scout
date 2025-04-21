@@ -21,3 +21,5 @@ build/
 # Internal files
 keywords.txt
 .scoutignore
+*.cpp
+*.h

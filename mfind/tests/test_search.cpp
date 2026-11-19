@@ -48,3 +48,31 @@ TEST(FileCache_ConcurrentReadersAndWriters) {
     for (auto& worker : workers) worker.join();
     EXPECT_FALSE(cache.isChanged(name));
 }
+
+TEST(FileCache_DetectsSameTimestampContentChanges) {
+    char name[] = "/tmp/scout-fingerprint-XXXXXX";
+    int fd = mkstemp(name); close(fd);
+    struct Cleanup { const char* path; ~Cleanup() { std::filesystem::remove(path); } } cleanup{name};
+    { std::ofstream out(name); out << "foo"; }
+    const auto time = std::filesystem::last_write_time(name);
+    FileCache cache; cache.update(name);
+    { std::ofstream out(name); out << "bar"; }
+    std::filesystem::last_write_time(name, time);
+    EXPECT_TRUE(cache.isChanged(name));
+}
+TEST(Ignore_ScopedRulesNegationAndPruning) {
+    char name[] = "/tmp/scout-ignore-XXXXXX"; EXPECT_TRUE(mkdtemp(name));
+    const std::filesystem::path root(name);
+    struct Cleanup { std::filesystem::path path; ~Cleanup() { std::filesystem::remove_all(path); } } cleanup{root};
+    std::filesystem::create_directories(root / "sub");
+    std::filesystem::create_directories(root / "build" / "nested");
+    { std::ofstream f(root / ".gitignore"); f << "build/\n*.log\n!important.log\n/root.txt\nspace name.txt\n"; }
+    { std::ofstream f(root / "sub" / ".gitignore"); f << "secret.txt\n"; }
+    for (auto file : {"root.txt", "space name.txt", "a.log", "important.log", "sub/root.txt", "sub/secret.txt", "build/nested/x.txt"}) { std::ofstream f(root / file); f << "x"; }
+    auto files = collectFiles(root);
+    auto contains = [&](const char* file) { return std::find(files.begin(), files.end(), (root / file).string()) != files.end(); };
+    EXPECT_TRUE(contains("important.log")); EXPECT_TRUE(contains("sub/root.txt"));
+    EXPECT_FALSE(contains("root.txt")); EXPECT_FALSE(contains("space name.txt"));
+    EXPECT_FALSE(contains("sub/secret.txt")); EXPECT_FALSE(contains("build/nested/x.txt"));
+    EXPECT_FALSE(contains("a.log"));
+}

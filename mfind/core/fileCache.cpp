@@ -1,86 +1,29 @@
 #include "fileCache.h"
-
-FileCache::FileCache() {
-    // Session-local cache: stale legacy metadata must not suppress startup scans.
-}
-
-bool FileCache::isChanged(const std::string& filePath) const {
-    std::lock_guard<std::mutex> lock(mutex);
-    try {
-        auto current = std::filesystem::last_write_time(filePath);
-        auto it = timestamps.find(filePath);
-        return (it == timestamps.end() || it->second != current);
-    } catch (...) {
-        return true;
+#include <fstream>
+#include <stdexcept>
+uint64_t FileCache::fingerprint(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+    if (!in) throw std::runtime_error("Cannot read: " + path);
+    uint64_t hash = 14695981039346656037ULL;
+    char buffer[65536];
+    while (in.read(buffer, sizeof buffer) || in.gcount()) {
+        for (std::streamsize i = 0; i < in.gcount(); ++i) { hash ^= static_cast<unsigned char>(buffer[i]); hash *= 1099511628211ULL; }
     }
+    if (in.bad()) throw std::runtime_error("Read failed: " + path);
+    return hash;
 }
-
+bool FileCache::isChanged(const std::string& file) const {
+    auto hash = fingerprint(file);
+    std::lock_guard<std::mutex> lock(mutex);
+    auto it = fingerprints.find(file);
+    return it == fingerprints.end() || it->second != hash;
+}
 bool FileCache::hasChangedFiles(const std::string& root, const IgnoreRules& ignore) const {
-    std::lock_guard<std::mutex> lock(mutex);
-    for (const auto& entry : std::filesystem::recursive_directory_iterator(root)) {
-        if (!entry.is_regular_file()) continue;
-        std::string path = entry.path().string();
-        if (ignore.shouldIgnore(entry.path())) continue;
-
-        try {
-            auto current = std::filesystem::last_write_time(entry);
-            auto it = timestamps.find(path);
-            if (it == timestamps.end() || it->second != current) {
-                return true; // found >1 changed file
-            }
-        } catch (...) {
-            continue;
-        }
-    }
+    for (const auto& file : collectFiles(root, ignore)) if (isChanged(file)) return true;
     return false;
 }
-
-
-void FileCache::update(const std::string& filePath) {
+void FileCache::update(const std::string& file) { update(file, fingerprint(file)); }
+void FileCache::update(const std::string& file, uint64_t hash) {
     std::lock_guard<std::mutex> lock(mutex);
-    try {
-        auto current = std::filesystem::last_write_time(filePath);
-        timestamps[filePath] = current;
-    } catch (...) {
-        std::cerr << "Error updating cache for file: " << filePath << std::endl;
-    }
-}
-
-void FileCache::load() {
-    std::lock_guard<std::mutex> lock(mutex);
-    std::ifstream file(cacheFilePath, std::ios::binary);
-    if (!file.is_open()) return;
-
-    size_t count;
-    file.read(reinterpret_cast<char*>(&count), sizeof(size_t));
-    for (size_t i = 0; i < count; ++i) {
-        size_t pathLen;
-        file.read(reinterpret_cast<char*>(&pathLen), sizeof(size_t));
-
-        std::string path(pathLen, '\0');
-        file.read(&path[0], pathLen);
-
-        std::filesystem::file_time_type time;
-        file.read(reinterpret_cast<char*>(&time), sizeof(time));
-
-        timestamps[path] = time;
-    }
-    file.close();
-}
-
-void FileCache::save() const {
-    std::lock_guard<std::mutex> lock(mutex);
-    std::filesystem::create_directory(".cache");
-    std::ofstream file(cacheFilePath, std::ios::binary);
-    if (!file.is_open()) return;
-
-    size_t count = timestamps.size();
-    file.write(reinterpret_cast<const char*>(&count), sizeof(size_t));
-    for (const auto& [path, time] : timestamps) {
-        size_t pathLen = path.size();
-        file.write(reinterpret_cast<const char*>(&pathLen), sizeof(size_t));
-        file.write(path.c_str(), pathLen);
-        file.write(reinterpret_cast<const char*>(&time), sizeof(time));
-    }
-    file.close();
+    fingerprints[file] = hash;
 }

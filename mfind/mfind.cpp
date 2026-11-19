@@ -48,14 +48,8 @@ std::vector<std::string> diffKeywords(const std::vector<std::string>& current, c
 void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache, std::unordered_map<std::string, std::string>& colorMap,
         const IgnoreRules& ignore, MatchIndex& matchIndex, std::mutex& matchIndexMutex, bool force = false) {
     FileQueue fileQueue;
-    Walker walker(2);
-    walker.setFileCallback([&](const std::string& file) {
-        std::filesystem::path p = file;
-        if (ignore.shouldIgnore(p)) {
-            return;
-        }
-        fileQueue.push(file);
-    });
+    for (const auto& file : collectFiles(root, ignore)) fileQueue.push(file);
+    fileQueue.setFinished();
 
     WorkerPool pool(4, fileQueue, [&](const std::string& file) {
         if (force || cache.isChanged(file)) {
@@ -82,10 +76,8 @@ void runSearchRound(const std::string& root, AhoCorasick& ac, FileCache& cache, 
         }
     });
 
-    walker.start(root);
     pool.start();
 
-    walker.join();
     fileQueue.setFinished();
     pool.join();
 }
@@ -127,9 +119,7 @@ int main(int argc, char* argv[]) {
                 previousKeywords = loaded;
             }
             std::set<std::string> files;
-            for (const auto& entry : std::filesystem::recursive_directory_iterator(root)) {
-                if (entry.is_regular_file() && !ignore.shouldIgnore(entry.path())) files.insert(entry.path().string());
-            }
+            for (const auto& file : collectFiles(root, ignore)) files.insert(file);
             for (const auto& file : previousFiles) if (!files.count(file)) matchIndex.removeFile(file);
             if (changed || files != previousFiles || cache.hasChangedFiles(root, ignore)) {
                 runSearchRound(root, *ac, cache, colorMap, ignore, matchIndex, matchIndexMutex, changed);

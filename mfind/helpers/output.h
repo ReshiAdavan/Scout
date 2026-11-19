@@ -31,7 +31,7 @@ inline std::string csvString(const std::string& value) {
     return out + '"';
 }
 inline std::string matchJson(const Match& m) {
-    return "{\"file\":" + jsonString(m.file) + ",\"keyword\":" + jsonString(m.keyword) +
+    return "{\"id\":" + jsonString(m.id.empty() ? m.keyword : m.id) + ",\"tag\":" + jsonString(m.tag) + ",\"file\":" + jsonString(m.file) + ",\"keyword\":" + jsonString(m.keyword) +
            ",\"byteOffset\":" + std::to_string(m.byteOffset) + ",\"line\":" + std::to_string(m.line) +
            ",\"column\":" + std::to_string(m.column) + ",\"text\":" + jsonString(m.text) +
            ",\"context\":" + jsonString(m.context) + "}";
@@ -39,12 +39,12 @@ inline std::string matchJson(const Match& m) {
 inline void printResults(const std::vector<Match>& matches, const Options& options, std::ostream& out = std::cout) {
     const bool color = options.color == "always" || (options.color == "auto" && isatty(STDOUT_FILENO));
     if (options.format == "json") out << "{\"matches\":[";
-    if (options.format == "csv") out << "file,keyword,byteOffset,line,column,text,context\n";
+    if (options.format == "csv") out << "file,keyword,byteOffset,line,column,text,context,id,tag\n";
     for (size_t i = 0; i < matches.size(); ++i) {
         const auto& m = matches[i];
         if (options.format == "json") { if (i) out << ','; out << matchJson(m); }
         else if (options.format == "jsonl") out << matchJson(m) << '\n';
-        else if (options.format == "csv") out << csvString(m.file) << ',' << csvString(m.keyword) << ',' << m.byteOffset << ',' << m.line << ',' << m.column << ',' << csvString(m.text) << ',' << csvString(m.context) << '\n';
+        else if (options.format == "csv") out << csvString(m.file) << ',' << csvString(m.keyword) << ',' << m.byteOffset << ',' << m.line << ',' << m.column << ',' << csvString(m.text) << ',' << csvString(m.context) << ',' << csvString(m.id.empty() ? m.keyword : m.id) << ',' << csvString(m.tag) << '\n';
         else if (options.format == "editor") out << m.file << ':' << m.line << ':' << m.column << ':' << m.text << '\n';
         else out << m.file << ':' << m.line << ':' << m.column << " | " << (color ? "\033[36m" : "") << m.keyword << (color ? "\033[0m" : "") << " | " << m.context << '\n';
     }

@@ -16,7 +16,7 @@ struct Match {
     std::string keyword;
     std::string context;
     size_t line = 1, column = 1;
-    std::string text{};
+    std::string text{}, id{}, tag{};
 
     bool operator==(const Match& other) const {
         return file == other.file &&

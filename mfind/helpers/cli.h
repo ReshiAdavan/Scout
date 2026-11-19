@@ -57,8 +57,8 @@ inline Options parseOptions(int argc, char** argv) {
     if (!options.requireAll.empty() && !options.requireAny.empty()) throw std::runtime_error("Choose --require-all or --require-any");
     applyProfile(options);
     if (options.color != "auto" && options.color != "always" && options.color != "never") throw std::runtime_error("Color must be auto, always, or never");
-    if (options.format != "text" && options.format != "editor" && options.format != "json" && options.format != "jsonl" && options.format != "csv") throw std::runtime_error("Unknown output format: " + options.format);
-    if (options.watch && (options.format == "json" || options.format == "csv")) throw std::runtime_error("Use text, editor, or jsonl for watch output");
+    if (options.format != "text" && options.format != "editor" && options.format != "json" && options.format != "jsonl" && options.format != "csv" && options.format != "lsp") throw std::runtime_error("Unknown output format: " + options.format);
+    if (options.watch && (options.format == "json" || options.format == "csv" || options.format == "lsp")) throw std::runtime_error("Use text, editor, or jsonl for watch output");
     if (options.matchMode != "all" && options.matchMode != "longest-per-start" && options.matchMode != "leftmost-longest") throw std::runtime_error("Unknown match mode: " + options.matchMode);
     return options;
 }

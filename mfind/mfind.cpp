@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
                          "  --match-mode all|longest-per-start|leftmost-longest\n"
                          "  --ignore-case --whole-word\n"
                          "  --extension EXT (repeatable) --poll-ms N --color auto|always|never\n"
-                         "--format text|editor|json|jsonl|csv\n"
+                         "--format text|editor|json|jsonl|csv|lsp\n"
                          "Exit codes: 0 matches, 1 no matches, 2 error; watch exits 0 on interrupt.\n";
             return 0;
         }

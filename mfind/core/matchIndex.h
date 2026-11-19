@@ -17,6 +17,8 @@ struct Match {
     std::string context;
     size_t line = 1, column = 1;
     std::string text{}, id{}, tag{};
+    size_t startLine = 0, startCharacter = 0, endLine = 0, endCharacter = 0;
+    bool validUtf8 = true;
 
     bool operator==(const Match& other) const {
         return file == other.file &&

@@ -2,6 +2,7 @@
 #define FILE_CACHE_H
 
 #include <string>
+#include <mutex>
 #include <unordered_map>
 #include <filesystem>
 #include <fstream>
@@ -10,6 +11,7 @@
 
 class FileCache {
 private:
+    mutable std::mutex mutex;
     std::unordered_map<std::string, std::filesystem::file_time_type> timestamps;
     std::string cacheFilePath = ".cache/mfind.cache";
 

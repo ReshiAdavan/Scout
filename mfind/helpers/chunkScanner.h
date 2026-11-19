@@ -19,26 +19,30 @@ public:
                      size_t threadCount = std::thread::hardware_concurrency(),
                      size_t contextSize = 30) {
         
-        size_t chunkLength = chunk.size();
-        size_t sliceSize = std::max<size_t>(chunkLength / threadCount, 4096);
-        std::vector<std::future<void>> futures;
-
-        for (size_t i = 0; i < chunkLength; i += sliceSize) {
-            size_t start = i;
-            size_t end = std::min(chunkLength, i + sliceSize + ac.getMaxPatternLength());
-
-            futures.push_back(std::async(std::launch::async, [&, start, end] {
-                std::string slice = chunk.substr(start, end - start);
-                auto matches = ac.search(slice);
-                for (const auto& [localPos, word] : matches) {
-                    size_t absolute = baseOffset + start + localPos;
-                    std::string context = extractContext(chunk, localPos + start, word.length(), contextSize);
-                    callback(absolute, word, context);
+        if (chunk.empty() || ac.getMaxPatternLength() == 0) return;
+        const size_t chunkLength = chunk.size();
+        threadCount = std::max<size_t>(1, threadCount);
+        const size_t sliceSize = std::max<size_t>(chunkLength / threadCount, 4096);
+        using Matches = std::vector<std::pair<size_t, std::string>>;
+        std::vector<std::future<Matches>> futures;
+        for (size_t start = 0; start < chunkLength; start += sliceSize) {
+            const size_t owned = std::min(sliceSize, chunkLength - start);
+            const size_t extra = std::min(ac.getMaxPatternLength() - 1, chunkLength - start - owned);
+            futures.push_back(std::async(std::launch::async, [&, start, owned, extra] {
+                Matches result;
+                for (const auto& match : ac.search(chunk.substr(start, owned + extra))) {
+                    if (match.first < owned) result.emplace_back(start + match.first, match.second);
                 }
+                return result;
             }));
         }
-
-        for (auto& f : futures) f.get();
+        // Callbacks run serially on the caller, never on scanning workers.
+        for (auto& future : futures) {
+            for (const auto& match : future.get()) {
+                callback(baseOffset + match.first, match.second,
+                         extractContext(chunk, match.first, match.second.size(), contextSize));
+            }
+        }
     }
 };
 

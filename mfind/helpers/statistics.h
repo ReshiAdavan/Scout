@@ -38,6 +38,7 @@ inline void printStatistics(const std::vector<Match>& matches, const Options& op
     }
     std::cerr << "{\"statistics\":{\"occurrences\":" << matches.size() << ",\"matchingFiles\":" << files.size()
               << ",\"scannedFiles\":" << session.scannedFiles << ",\"cacheHits\":" << session.cacheHits
+              << ",\"retainedIndexBytes\":" << session.retainedBytes << ",\"evictedFiles\":" << session.evictedFiles
               << ",\"scannedBytes\":" << session.scannedBytes << ",\"elapsedMs\":" << elapsedMs << ",\"files\":{";
     bool first = true;
     for (const auto& file : files) { if (!first) std::cerr << ','; first = false; std::cerr << jsonString(file.first) << ':' << file.second; }

@@ -1,6 +1,7 @@
 #include "core/searchSession.h"
 #include "helpers/cli.h"
 #include "helpers/output.h"
+#include "helpers/matchView.h"
 #include <csignal>
 #include <chrono>
 #include <thread>
@@ -12,6 +13,7 @@ int main(int argc, char** argv) {
         const auto options = parseOptions(argc, argv);
         if (options.help) {
             std::cout << "Usage: mfind [root] [--keywords FILE] [--watch] [--threads N]\n"
+                         "  --match-mode all|longest-per-start|leftmost-longest\n"
                          "  --ignore-case --whole-word\n"
                          "  --extension EXT (repeatable) --poll-ms N --color auto|always|never\n"
                          "--format text|editor|json|jsonl|csv\n"
@@ -23,7 +25,7 @@ int main(int argc, char** argv) {
         SearchSession session;
         while (running) {
             const auto words = loadKeywords(options.keywords);
-            const auto matches = session.scan(options, words);
+            const auto matches = selectMatches(session.scan(options, words), options.matchMode, words);
             printResults(matches, options);
             if (!options.watch) return matches.empty() ? 1 : 0;
             for (size_t waited = 0; running && waited < options.pollMs; waited += 50)

@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <vector>
 struct Options {
-    std::string root = ".", keywords = "keywords.txt", color = "auto", format = "text";
+    std::string root = ".", keywords = "keywords.txt", color = "auto", format = "text", matchMode = "all";
     bool watch = false, help = false, version = false, ignoreCase = false, wholeWord = false;
     size_t threads = 4, pollMs = 1000;
     std::vector<std::string> extensions;
@@ -28,6 +28,7 @@ inline Options parseOptions(int argc, char** argv) {
         else if (!positional && arg == "--keywords") options.keywords = value();
         else if (!positional && arg == "--threads") options.threads = positiveNumber(value(), 256);
         else if (!positional && arg == "--poll-ms") options.pollMs = positiveNumber(value(), 3600000);
+        else if (!positional && arg == "--match-mode") options.matchMode = value();
         else if (!positional && arg == "--format") options.format = value();
         else if (!positional && arg == "--color") options.color = value();
         else if (!positional && arg == "--extension") { auto ext = value(); if (ext.empty()) throw std::runtime_error("Empty extension"); if (ext[0] != '.') ext = '.' + ext; options.extensions.push_back(ext); }
@@ -37,5 +38,6 @@ inline Options parseOptions(int argc, char** argv) {
     if (options.color != "auto" && options.color != "always" && options.color != "never") throw std::runtime_error("Color must be auto, always, or never");
     if (options.format != "text" && options.format != "editor" && options.format != "json" && options.format != "jsonl" && options.format != "csv") throw std::runtime_error("Unknown output format: " + options.format);
     if (options.watch && (options.format == "json" || options.format == "csv")) throw std::runtime_error("Use text, editor, or jsonl for watch output");
+    if (options.matchMode != "all" && options.matchMode != "longest-per-start" && options.matchMode != "leftmost-longest") throw std::runtime_error("Unknown match mode: " + options.matchMode);
     return options;
 }

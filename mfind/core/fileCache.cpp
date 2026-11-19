@@ -5,6 +5,7 @@ FileCache::FileCache() {
 }
 
 bool FileCache::isChanged(const std::string& filePath) const {
+    std::lock_guard<std::mutex> lock(mutex);
     try {
         auto current = std::filesystem::last_write_time(filePath);
         auto it = timestamps.find(filePath);
@@ -15,6 +16,7 @@ bool FileCache::isChanged(const std::string& filePath) const {
 }
 
 bool FileCache::hasChangedFiles(const std::string& root, const IgnoreRules& ignore) const {
+    std::lock_guard<std::mutex> lock(mutex);
     for (const auto& entry : std::filesystem::recursive_directory_iterator(root)) {
         if (!entry.is_regular_file()) continue;
         std::string path = entry.path().string();
@@ -35,6 +37,7 @@ bool FileCache::hasChangedFiles(const std::string& root, const IgnoreRules& igno
 
 
 void FileCache::update(const std::string& filePath) {
+    std::lock_guard<std::mutex> lock(mutex);
     try {
         auto current = std::filesystem::last_write_time(filePath);
         timestamps[filePath] = current;
@@ -44,6 +47,7 @@ void FileCache::update(const std::string& filePath) {
 }
 
 void FileCache::load() {
+    std::lock_guard<std::mutex> lock(mutex);
     std::ifstream file(cacheFilePath, std::ios::binary);
     if (!file.is_open()) return;
 
@@ -65,6 +69,7 @@ void FileCache::load() {
 }
 
 void FileCache::save() const {
+    std::lock_guard<std::mutex> lock(mutex);
     std::filesystem::create_directory(".cache");
     std::ofstream file(cacheFilePath, std::ios::binary);
     if (!file.is_open()) return;

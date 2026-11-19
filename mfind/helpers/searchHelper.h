@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <stdexcept>
 #include "../core/ahoCorasick.h"
 #include "formatHelper.h"
 #include "chunkScanner.h"
@@ -21,27 +22,22 @@ inline void searchFile(const std::string& filename,
         return;
     }
 
-    size_t overlap = ac.getMaxPatternLength() - 1;
-    std::vector<char> buffer(chunkSize + overlap);
-    size_t offset = 0;
-
-    while (!file.eof()) {
-        if (offset != 0) {
-            std::copy(buffer.end() - overlap, buffer.end(), buffer.begin());
-        }
-
-        file.read(buffer.data() + (offset != 0 ? overlap : 0), chunkSize);
-        std::streamsize bytesRead = file.gcount();
-        if (bytesRead == 0) break;
-
-        size_t total = (offset == 0 ? bytesRead : bytesRead + overlap);
-        std::string chunk(buffer.data(), total);
-
+    if (chunkSize == 0) throw std::invalid_argument("chunk size must be positive");
+    if (ac.getMaxPatternLength() == 0) return;
+    const size_t overlap = ac.getMaxPatternLength() - 1;
+    std::vector<char> buffer(chunkSize);
+    std::string tail;
+    size_t consumed = 0;
+    while (file.read(buffer.data(), chunkSize) || file.gcount() > 0) {
+        const size_t count = static_cast<size_t>(file.gcount());
+        std::string chunk = tail + std::string(buffer.data(), count);
+        const size_t base = consumed - tail.size();
         ChunkScanner::scan(chunk, ac, [&](size_t pos, const std::string& word, const std::string& context) {
-            callback(filename, offset + pos, word, context);
-        }, offset);
-
-        offset += bytesRead;
+            // A match belongs to the read containing its final byte.
+            if (pos + word.size() > consumed) callback(filename, pos, word, context);
+        }, base);
+        consumed += count;
+        tail = chunk.substr(chunk.size() - std::min(overlap, chunk.size()));
     }
 
     file.close();

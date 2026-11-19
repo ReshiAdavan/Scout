@@ -43,6 +43,7 @@ private:
 
 public:
     void save(const std::string& filename) const {
+        std::lock_guard<std::mutex> lock(mtx);
         std::ofstream out(filename, std::ios::binary);
         if (!out) {
             std::cerr << "[!] Failed to open " << filename << " for writing.\n";
@@ -117,45 +118,38 @@ public:
     void updateMatchesForFile(const std::string& file, const std::vector<Match>& newMatches) {
         std::lock_guard<std::mutex> lock(mtx);
 
-        auto& oldMatches = fileToMatches[file];
-        std::unordered_set<Match> newSet(newMatches.begin(), newMatches.end());
-
-        size_t evicted = 0, added = 0;
-
-        // Remove stale matches from keywordToMatches
-        for (const auto& old : oldMatches) {
-            if (!newSet.count(old)) {
-                auto& vec = keywordToMatches[old.keyword];
-                vec.erase(std::remove_if(vec.begin(), vec.end(), [&](const Match& m) {
-                    return m.file == file && m.byteOffset == old.byteOffset;
-                }), vec.end());
-                ++evicted;
+        for (auto it = keywordToMatches.begin(); it != keywordToMatches.end();) {
+            auto& values = it->second;
+            values.erase(std::remove_if(values.begin(), values.end(), [&](const Match& m) {
+                return m.file == file;
+            }), values.end());
+            if (values.empty()) it = keywordToMatches.erase(it); else ++it;
+        }
+        std::unordered_set<Match> seen;
+        std::vector<Match> unique;
+        for (const auto& match : newMatches) {
+            if (seen.insert(match).second) {
+                unique.push_back(match);
+                keywordToMatches[match.keyword].push_back(match);
             }
         }
-
-        // Add new matches to keywordToMatches
-        for (const auto& m : newMatches) {
-            keywordToMatches[m.keyword].push_back(m);
-            ++added;
-        }
-
-        fileToMatches[file] = newMatches;
-
-        std::cout << "[cache] File: " << file
-                  << " | Matches added: " << added
-                  << " | Matches evicted: " << evicted
-                  << " | Reused: " << (added == 0 && evicted == 0 ? "YES" : "NO")
-                  << std::endl;
+        fileToMatches[file] = std::move(unique);
     }
 
-    const std::vector<Match>& getMatchesForKeyword(const std::string& keyword) const {
+    void removeFile(const std::string& file) {
+        updateMatchesForFile(file, {});
+        std::lock_guard<std::mutex> lock(mtx);
+        fileToMatches.erase(file);
+    }
+
+    std::vector<Match> getMatchesForKeyword(const std::string& keyword) const {
         static const std::vector<Match> empty;
         std::lock_guard<std::mutex> lock(mtx);
         auto it = keywordToMatches.find(keyword);
         return (it != keywordToMatches.end()) ? it->second : empty;
     }
 
-    const std::vector<Match>& getMatchesForFile(const std::string& file) const {
+    std::vector<Match> getMatchesForFile(const std::string& file) const {
         static const std::vector<Match> empty;
         std::lock_guard<std::mutex> lock(mtx);
         auto it = fileToMatches.find(file);

@@ -13,6 +13,7 @@ private:
         std::unordered_map<char, Node*> children;
         Node* fail = nullptr;
         std::vector<std::string> output;
+        std::vector<std::string> terminal;
     };
 
     Node* root;
@@ -35,6 +36,7 @@ public:
     }
 
     void addKeyword(const std::string& keyword) {
+        if (keyword.empty()) return;
         Node* node = root;
         for (char ch : keyword) {
             if (!node->children.count(ch)) {
@@ -42,7 +44,7 @@ public:
             }
             node = node->children[ch];
         }
-        node->output.push_back(keyword);
+        node->terminal.push_back(keyword);
         insertedKeywords.push_back(keyword);
         maxPatternLength = std::max(maxPatternLength, keyword.size());
     }
@@ -57,6 +59,11 @@ public:
 
     // Failure links
     void build() {
+        std::function<void(Node*)> reset = [&](Node* node) {
+            node->output = node->terminal;
+            for (auto& item : node->children) reset(item.second);
+        };
+        reset(root);
         std::queue<Node*> q;
         root->fail = root;
 

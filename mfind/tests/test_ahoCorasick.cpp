@@ -81,3 +81,10 @@ TEST(AhoCorasick_GetKeywordsReturnsInsertionOrder) {
     EXPECT_EQ(kws[0], std::string("first"));
     EXPECT_EQ(kws[2], std::string("third"));
 }
+
+TEST(AhoCorasick_RebuildIsIdempotent) {
+    AhoCorasick ac; ac.addKeyword("he"); ac.addKeyword("she"); ac.build();
+    auto expected = ac.search("she");
+    for (int i = 0; i < 10; ++i) { ac.build(); EXPECT_TRUE(ac.search("she") == expected); }
+    ac.addKeyword("hers"); ac.build(); EXPECT_EQ(ac.search("ushers").size(), size_t(3));
+}

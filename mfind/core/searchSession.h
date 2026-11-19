@@ -24,12 +24,15 @@ class SearchSession {
     struct Entry { uint64_t hash; std::vector<Match> matches; };
     std::map<std::string, Entry> entries;
     std::vector<std::string> keywords;
+    bool ignoreCase = false, wholeWord = false;
 public:
     size_t scannedFiles = 0, cacheHits = 0, scannedBytes = 0;
     std::vector<Match> scan(const Options& options, const std::vector<std::string>& words) {
         scannedFiles = cacheHits = scannedBytes = 0;
-        if (keywords != words) { entries.clear(); keywords = words; }
-        AhoCorasick ac;
+        if (keywords != words || ignoreCase != options.ignoreCase || wholeWord != options.wholeWord) {
+            entries.clear(); keywords = words; ignoreCase = options.ignoreCase; wholeWord = options.wholeWord;
+        }
+        AhoCorasick ac(options.ignoreCase);
         for (const auto& word : words) ac.addKeyword(word);
         ac.build();
         IgnoreRules ignore; ignore.loadFromFile((std::filesystem::path(options.root) / ".scoutignore").string());
@@ -54,6 +57,13 @@ public:
                     std::ifstream input(file, std::ios::binary);
                     std::string text((std::istreambuf_iterator<char>(input)), {});
                     if (input.bad()) throw std::runtime_error("Read failed: " + file);
+                    if (options.wholeWord) {
+                        auto wordChar = [](unsigned char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'; };
+                        matches.erase(std::remove_if(matches.begin(), matches.end(), [&](const Match& m) {
+                            const size_t end = m.byteOffset + m.keyword.size();
+                            return (m.byteOffset && wordChar(text[m.byteOffset - 1])) || (end < text.size() && wordChar(text[end]));
+                        }), matches.end());
+                    }
                     std::vector<size_t> lines{0};
                     for (size_t pos = 0; pos < text.size(); ++pos) if (text[pos] == '\n') lines.push_back(pos + 1);
                     for (auto& match : matches) {

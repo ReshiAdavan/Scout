@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
         const auto options = parseOptions(argc, argv);
         if (options.help) {
             std::cout << "Usage: mfind [root] [--keywords FILE] [--watch] [--threads N]\n"
+                         "  --ignore-case --whole-word\n"
                          "  --extension EXT (repeatable) --poll-ms N --color auto|always|never\n"
                          "--format text|editor|json|jsonl|csv\n"
                          "Exit codes: 0 matches, 1 no matches, 2 error; watch exits 0 on interrupt.\n";

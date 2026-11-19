@@ -16,14 +16,19 @@ private:
         std::vector<std::string> terminal;
     };
 
+    bool ignoreCase;
+    char fold(char c) const { return ignoreCase && c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c; }
     Node* root;
     std::vector<std::string> insertedKeywords;
     size_t maxPatternLength = 0;
 
 public:
-    AhoCorasick() {
+    explicit AhoCorasick(bool caseInsensitive = false) : ignoreCase(caseInsensitive) {
         root = new Node();
     }
+
+    AhoCorasick(const AhoCorasick&) = delete;
+    AhoCorasick& operator=(const AhoCorasick&) = delete;
 
     ~AhoCorasick() {
         std::function<void(Node*)> cleanup = [&](Node* node) {
@@ -38,7 +43,8 @@ public:
     void addKeyword(const std::string& keyword) {
         if (keyword.empty()) return;
         Node* node = root;
-        for (char ch : keyword) {
+        for (char raw : keyword) {
+            char ch = fold(raw);
             if (!node->children.count(ch)) {
                 node->children[ch] = new Node();
             }
@@ -105,7 +111,7 @@ public:
         Node* node = root;
 
         for (size_t i = 0; i < text.size(); ++i) {
-            char ch = text[i];
+            char ch = fold(text[i]);
 
             while (node != root && !node->children.count(ch)) {
                 node = node->fail;

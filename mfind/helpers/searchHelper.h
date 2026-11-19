@@ -18,8 +18,7 @@ inline void searchFile(const std::string& filename,
                        size_t chunkSize = 8192) {
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
-        return;
+        throw std::runtime_error("Cannot read: " + filename);
     }
 
     if (chunkSize == 0) throw std::invalid_argument("chunk size must be positive");
@@ -40,6 +39,7 @@ inline void searchFile(const std::string& filename,
         tail = chunk.substr(chunk.size() - std::min(overlap, chunk.size()));
     }
 
+    if (file.bad()) throw std::runtime_error("Read failed: " + filename);
     file.close();
 }
 

@@ -76,3 +76,17 @@ TEST(Ignore_ScopedRulesNegationAndPruning) {
     EXPECT_FALSE(contains("sub/secret.txt")); EXPECT_FALSE(contains("build/nested/x.txt"));
     EXPECT_FALSE(contains("a.log"));
 }
+
+#include "../helpers/matchView.h"
+
+TEST(MatchModes_NestedTouchingAndTies) {
+    std::vector<Match> matches = {{"f",0,"ab",""},{"f",1,"bc",""},{"f",0,"abc",""},{"f",3,"ab",""}};
+    std::vector<std::string> words = {"ab","bc","abc"};
+    EXPECT_EQ(selectMatches(matches, "all", words).size(), size_t(4));
+    auto longest = selectMatches(matches, "longest-per-start", words);
+    EXPECT_EQ(longest.size(), size_t(3)); EXPECT_EQ(longest[0].keyword, std::string("abc"));
+    auto left = selectMatches(matches, "leftmost-longest", words);
+    EXPECT_EQ(left.size(), size_t(2)); EXPECT_EQ(left[1].byteOffset, size_t(3));
+    auto tie = selectMatches({{"f",0,"FOO",""},{"f",0,"foo",""}}, "leftmost-longest", {"foo","FOO"});
+    EXPECT_EQ(tie[0].keyword, std::string("foo"));
+}

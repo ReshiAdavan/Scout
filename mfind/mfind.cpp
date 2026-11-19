@@ -10,9 +10,10 @@ volatile std::sig_atomic_t running = 1;
 void signalHandler(int) { running = 0; }
 int main(int argc, char** argv) {
     try {
-        const auto options = parseOptions(argc, argv);
+        auto options = parseOptions(argc, argv);
         if (options.help) {
             std::cout << "Usage: mfind [root] [--keywords FILE] [--watch] [--threads N]\n"
+                         "  --config FILE --profile NAME\n"
                          "  --match-mode all|longest-per-start|leftmost-longest\n"
                          "  --ignore-case --whole-word\n"
                          "  --extension EXT (repeatable) --poll-ms N --color auto|always|never\n"
@@ -24,8 +25,18 @@ int main(int argc, char** argv) {
         std::signal(SIGINT, signalHandler); std::signal(SIGTERM, signalHandler);
         SearchSession session;
         while (running) {
-            const auto words = loadKeywords(options.keywords);
-            const auto matches = selectMatches(session.scan(options, words), options.matchMode, words);
+            options = parseOptions(argc, argv);
+            std::vector<std::string> words;
+            if (options.rules.empty()) words = loadKeywords(options.keywords);
+            else { std::set<std::string> seen; for (const auto& rule : options.rules) if (seen.insert(rule.pattern).second) words.push_back(rule.pattern); }
+            auto matches = selectMatches(session.scan(options, words), options.matchMode, words);
+            if (!options.rules.empty()) {
+                std::vector<Match> labeled;
+                for (const auto& match : matches) for (const auto& rule : options.rules) if (rule.pattern == match.keyword) {
+                    auto copy = match; copy.id = rule.id; copy.tag = rule.tag; labeled.push_back(std::move(copy));
+                }
+                matches = std::move(labeled);
+            }
             printResults(matches, options);
             if (!options.watch) return matches.empty() ? 1 : 0;
             for (size_t waited = 0; running && waited < options.pollMs; waited += 50)

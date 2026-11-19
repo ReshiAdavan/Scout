@@ -39,6 +39,7 @@ public:
         auto files = collectFiles(options.root, ignore);
         files.erase(std::remove_if(files.begin(), files.end(), [&](const std::string& path) {
             if (std::filesystem::absolute(path).lexically_normal() == std::filesystem::absolute(options.keywords).lexically_normal()) return true;
+            if (!options.config.empty() && std::filesystem::absolute(path).lexically_normal() == std::filesystem::absolute(options.config).lexically_normal()) return true;
             return !options.extensions.empty() && std::find(options.extensions.begin(), options.extensions.end(), std::filesystem::path(path).extension().string()) == options.extensions.end();
         }), files.end());
         const std::set<std::string> live(files.begin(), files.end());

@@ -51,6 +51,16 @@ public:
                 ++scannedFiles; scannedBytes += std::filesystem::file_size(file);
                 jobs.push_back(std::async(std::launch::async, [&, file, hash] {
                     auto matches = searchFile(file, ac);
+                    std::ifstream input(file, std::ios::binary);
+                    std::string text((std::istreambuf_iterator<char>(input)), {});
+                    if (input.bad()) throw std::runtime_error("Read failed: " + file);
+                    std::vector<size_t> lines{0};
+                    for (size_t pos = 0; pos < text.size(); ++pos) if (text[pos] == '\n') lines.push_back(pos + 1);
+                    for (auto& match : matches) {
+                        auto line = std::upper_bound(lines.begin(), lines.end(), match.byteOffset) - lines.begin() - 1;
+                        match.line = line + 1; match.column = match.byteOffset - lines[line] + 1;
+                        match.text = text.substr(match.byteOffset, match.keyword.size());
+                    }
                     if (FileCache::fingerprint(file) != hash) throw std::runtime_error("File changed during scan; retry: " + file);
                     return Result{file, Entry{hash, std::move(matches)}};
                 }));

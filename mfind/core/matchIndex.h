@@ -15,6 +15,8 @@ struct Match {
     size_t byteOffset;
     std::string keyword;
     std::string context;
+    size_t line = 1, column = 1;
+    std::string text;
 
     bool operator==(const Match& other) const {
         return file == other.file &&

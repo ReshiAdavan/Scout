@@ -13,7 +13,8 @@ struct Options {
     bool watch = false, help = false, version = false, ignoreCase = false, wholeWord = false, stats = false;
     size_t threads = 4, pollMs = 1000;
     std::vector<std::string> extensions, requireAll, requireAny;
-    std::string config, profile;
+    std::string config, profile, cache;
+    size_t indexBytes = 64 * 1024 * 1024;
     std::vector<KeywordRule> rules;
     std::set<std::string> explicitOptions;
 };
@@ -36,6 +37,8 @@ inline Options parseOptions(int argc, char** argv) {
         else if (!positional && arg == "--whole-word") options.wholeWord = true;
         else if (!positional && arg == "--help") options.help = true;
         else if (!positional && arg == "--version") options.version = true;
+        else if (!positional && arg == "--cache") options.cache = value();
+        else if (!positional && arg == "--index-mb") options.indexBytes = positiveNumber(value(), 1024) * 1024 * 1024;
         else if (!positional && arg == "--stats") options.stats = true;
         else if (!positional && arg == "--require-all") options.requireAll.push_back(value());
         else if (!positional && arg == "--require-any") options.requireAny.push_back(value());

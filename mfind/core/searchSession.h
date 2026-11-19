@@ -7,6 +7,8 @@
 #include <map>
 #include <set>
 #include <tuple>
+#include <unistd.h>
+#include <limits>
 
 inline std::vector<std::string> loadKeywords(const std::string& path) {
     std::ifstream file(path);
@@ -25,13 +27,72 @@ class SearchSession {
     std::map<std::string, Entry> entries;
     std::vector<std::string> keywords;
     bool ignoreCase = false, wholeWord = false;
+    std::string signature;
+    static size_t entryBytes(const std::pair<const std::string, Entry>& entry) {
+        size_t bytes = sizeof(entry) + entry.first.capacity();
+        for (const auto& m : entry.second.matches) bytes += sizeof(Match) + m.file.capacity() + m.keyword.capacity() + m.context.capacity() + m.text.capacity();
+        return bytes;
+    }
+    void loadSnapshot(const std::string& path, const std::string& expected, size_t budget) {
+        if (path.empty()) return;
+        std::error_code error; const auto bytes = std::filesystem::file_size(path, error);
+        if (error || bytes > std::min<size_t>(budget * 2, 128 * 1024 * 1024)) return;
+        std::ifstream input(path, std::ios::binary);
+        std::string magic, identity;
+        size_t count = 0;
+        if (!(input >> magic >> std::quoted(identity) >> count) || magic != "SCOUT2" || identity != expected || count > 1000000) return;
+        std::map<std::string, Entry> loaded; size_t total = 0;
+        for (size_t i = 0; i < count; ++i) {
+            std::string file; Entry entry{}; size_t matches = 0;
+            if (!(input >> std::quoted(file) >> entry.hash >> matches) || file.size() > 1048576 || matches > 1000000) return;
+            for (size_t j = 0; j < matches; ++j) {
+                Match m; m.file = file;
+                if (!(input >> m.byteOffset >> m.line >> m.column >> std::quoted(m.keyword) >> std::quoted(m.context) >> std::quoted(m.text))) return;
+                if (!m.line || !m.column || m.keyword.empty() || m.keyword.size() > 1048576 || m.context.size() > 1048576 || m.text.size() != m.keyword.size() || m.byteOffset > std::numeric_limits<size_t>::max() - m.keyword.size()) return;
+                total += sizeof(Match) + m.file.capacity() + m.keyword.capacity() + m.context.capacity() + m.text.capacity();
+                if (total > budget) return;
+                entry.matches.push_back(std::move(m));
+            }
+            auto inserted = loaded.emplace(file, std::move(entry));
+            if (!inserted.second) return;
+            total += sizeof(*inserted.first) + file.capacity(); if (total > budget) return;
+        }
+        input >> std::ws; if (!input.eof()) return;
+        entries = std::move(loaded);
+    }
+    void saveSnapshot(const std::string& path) const {
+        if (path.empty()) return;
+        auto parent = std::filesystem::path(path).parent_path();
+        if (!parent.empty()) std::filesystem::create_directories(parent);
+        std::string pattern = path + ".tmp.XXXXXX";
+        std::vector<char> name(pattern.begin(), pattern.end()); name.push_back(0);
+        int fd = mkstemp(name.data()); if (fd < 0) throw std::runtime_error("Cannot create cache temporary file");
+        close(fd);
+        try {
+            std::ofstream out(name.data(), std::ios::binary);
+            out << "SCOUT2\n" << std::quoted(signature) << '\n' << entries.size() << '\n';
+            for (const auto& entry : entries) {
+                out << std::quoted(entry.first) << ' ' << entry.second.hash << ' ' << entry.second.matches.size() << '\n';
+                for (const auto& m : entry.second.matches) out << m.byteOffset << ' ' << m.line << ' ' << m.column << ' ' << std::quoted(m.keyword) << ' ' << std::quoted(m.context) << ' ' << std::quoted(m.text) << '\n';
+            }
+            out.close(); if (!out) throw std::runtime_error("Cannot save cache snapshot");
+            std::filesystem::rename(name.data(), path);
+        } catch (...) { std::filesystem::remove(name.data()); throw; }
+    }
 public:
-    size_t scannedFiles = 0, cacheHits = 0, scannedBytes = 0;
+    size_t scannedFiles = 0, cacheHits = 0, scannedBytes = 0, retainedBytes = 0, evictedFiles = 0;
     std::vector<Match> scan(const Options& options, const std::vector<std::string>& words) {
         scannedFiles = cacheHits = scannedBytes = 0;
-        if (keywords != words || ignoreCase != options.ignoreCase || wholeWord != options.wholeWord) {
+        std::ostringstream identity;
+        identity << std::quoted(std::filesystem::absolute(options.root).lexically_normal().string()) << ' ' << options.ignoreCase << options.wholeWord;
+        for (const auto& word : words) identity << ' ' << std::quoted(word);
+        const bool changedQuery = signature != identity.str() || ignoreCase != options.ignoreCase || wholeWord != options.wholeWord;
+        if (changedQuery) {
             entries.clear(); keywords = words; ignoreCase = options.ignoreCase; wholeWord = options.wholeWord;
+            signature = identity.str(); loadSnapshot(options.cache, signature, options.indexBytes);
         }
+        const size_t previousEntries = entries.size();
+        evictedFiles = 0;
         AhoCorasick ac(options.ignoreCase);
         for (const auto& word : words) ac.addKeyword(word);
         ac.build();
@@ -39,6 +100,7 @@ public:
         auto files = collectFiles(options.root, ignore);
         files.erase(std::remove_if(files.begin(), files.end(), [&](const std::string& path) {
             if (std::filesystem::absolute(path).lexically_normal() == std::filesystem::absolute(options.keywords).lexically_normal()) return true;
+            if (!options.cache.empty() && std::filesystem::absolute(path).lexically_normal() == std::filesystem::absolute(options.cache).lexically_normal()) return true;
             if (!options.config.empty() && std::filesystem::absolute(path).lexically_normal() == std::filesystem::absolute(options.config).lexically_normal()) return true;
             return !options.extensions.empty() && std::find(options.extensions.begin(), options.extensions.end(), std::filesystem::path(path).extension().string()) == options.extensions.end();
         }), files.end());
@@ -82,6 +144,12 @@ public:
         std::sort(results.begin(), results.end(), [](const Match& a, const Match& b) {
             return std::tie(a.file, a.byteOffset, a.keyword) < std::tie(b.file, b.byteOffset, b.keyword);
         });
+        retainedBytes = 0;
+        for (const auto& entry : entries) retainedBytes += entryBytes(entry);
+        while (retainedBytes > options.indexBytes && !entries.empty()) {
+            retainedBytes -= entryBytes(*entries.begin()); entries.erase(entries.begin()); ++evictedFiles;
+        }
+        if (changedQuery || scannedFiles || previousEntries != entries.size()) saveSnapshot(options.cache);
         return results;
     }
 };

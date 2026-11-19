@@ -2,6 +2,7 @@
 #include "helpers/cli.h"
 #include "helpers/output.h"
 #include "helpers/matchView.h"
+#include "helpers/statistics.h"
 #include <csignal>
 #include <chrono>
 #include <thread>
@@ -13,6 +14,7 @@ int main(int argc, char** argv) {
         auto options = parseOptions(argc, argv);
         if (options.help) {
             std::cout << "Usage: mfind [root] [--keywords FILE] [--watch] [--threads N]\n"
+                         "  --stats --require-all ID (repeat) | --require-any ID (repeat)\n"
                          "  --config FILE --profile NAME\n"
                          "  --match-mode all|longest-per-start|leftmost-longest\n"
                          "  --ignore-case --whole-word\n"
@@ -25,6 +27,7 @@ int main(int argc, char** argv) {
         std::signal(SIGINT, signalHandler); std::signal(SIGTERM, signalHandler);
         SearchSession session;
         while (running) {
+            const auto started = std::chrono::steady_clock::now();
             options = parseOptions(argc, argv);
             std::vector<std::string> words;
             if (options.rules.empty()) words = loadKeywords(options.keywords);
@@ -37,7 +40,10 @@ int main(int argc, char** argv) {
                 }
                 matches = std::move(labeled);
             }
+            matches = queryFiles(matches, options, words);
             printResults(matches, options);
+            if (options.stats) printStatistics(matches, options, words, session,
+                std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - started).count());
             if (!options.watch) return matches.empty() ? 1 : 0;
             for (size_t waited = 0; running && waited < options.pollMs; waited += 50)
                 std::this_thread::sleep_for(std::chrono::milliseconds(std::min<size_t>(50, options.pollMs - waited)));

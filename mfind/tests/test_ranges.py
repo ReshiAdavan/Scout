@@ -5,7 +5,7 @@ with tempfile.TemporaryDirectory() as directory:
     (root/'data'/'space name.txt').write_bytes('😀foo\r\nαfoo\rfoo'.encode())
     args=[binary,'data','--format','lsp','--cache','.cache/index']
     for _ in range(2):
-        r=subprocess.run(args,cwd=root,text=True,capture_output=True); assert r.returncode==0,r.stderr
+        r=subprocess.run(args,cwd=root,text=True,capture_output=True,timeout=15); assert r.returncode==0,r.stderr
         locations=json.loads(r.stdout)
         assert locations[0]['uri'].endswith('/space%20name.txt'),locations
         assert [m['range'] for m in locations]==[

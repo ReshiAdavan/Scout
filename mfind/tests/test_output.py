@@ -5,7 +5,7 @@ with tempfile.TemporaryDirectory() as directory:
     (root / 'keywords.txt').write_text('foo"bar\n')
     (root / 'data' / 'a,b.txt').write_bytes('α\r\nfoo"bar\n'.encode())
     def run(fmt):
-        result = subprocess.run([binary, 'data', '--format', fmt], cwd=root, capture_output=True, text=True)
+        result = subprocess.run([binary, 'data', '--format', fmt], cwd=root, capture_output=True, text=True, timeout=15)
         assert result.returncode == 0, result.stderr
         return result.stdout
     m = json.loads(run('json'))['matches'][0]

@@ -90,3 +90,13 @@ TEST(MatchModes_NestedTouchingAndTies) {
     auto tie = selectMatches({{"f",0,"FOO",""},{"f",0,"foo",""}}, "leftmost-longest", {"foo","FOO"});
     EXPECT_EQ(tie[0].keyword, std::string("foo"));
 }
+
+TEST(Search_DisappearingFileIsRetryable) {
+    char name[] = "/tmp/scout-disappearing-XXXXXX";
+    int fd = mkstemp(name); close(fd); std::filesystem::remove(name);
+    bool fingerprintRetry = false, searchRetry = false;
+    try { FileCache::fingerprint(name); } catch (const RetryScan&) { fingerprintRetry = true; }
+    AhoCorasick ac; ac.addKeyword("foo"); ac.build();
+    try { searchFile(name, ac); } catch (const RetryScan&) { searchRetry = true; }
+    EXPECT_TRUE(fingerprintRetry); EXPECT_TRUE(searchRetry);
+}

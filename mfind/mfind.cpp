@@ -35,7 +35,15 @@ int main(int argc, char** argv) {
             std::vector<std::string> words;
             if (options.rules.empty()) words = loadKeywords(options.keywords);
             else { std::set<std::string> seen; for (const auto& rule : options.rules) if (seen.insert(rule.pattern).second) words.push_back(rule.pattern); }
-            auto matches = selectMatches(session.scan(options, words), options.matchMode, words);
+            std::vector<Match> matches;
+            try { matches = selectMatches(session.scan(options, words), options.matchMode, words); }
+            catch (const RetryScan& error) {
+                if (!options.watch) throw;
+                std::cerr << "mfind: retrying changed filesystem snapshot: " << error.what() << '\n';
+                for (size_t waited = 0; running && waited < options.pollMs; waited += 50)
+                    std::this_thread::sleep_for(std::chrono::milliseconds(std::min<size_t>(50, options.pollMs - waited)));
+                continue;
+            }
             if (!options.rules.empty()) {
                 std::vector<Match> labeled;
                 for (const auto& match : matches) for (const auto& rule : options.rules) if (rule.pattern == match.keyword) {

@@ -49,6 +49,8 @@ class SearchSession {
             for (size_t j = 0; j < matches; ++j) {
                 Match m; m.file = file;
                 if (!(input >> m.byteOffset >> m.line >> m.column >> std::quoted(m.keyword) >> std::quoted(m.context) >> std::quoted(m.text) >> m.startLine >> m.startCharacter >> m.endLine >> m.endCharacter >> m.validUtf8)) return;
+                if (std::find(keywords.begin(), keywords.end(), m.keyword) == keywords.end()) return;
+                if (m.endLine < m.startLine || (m.endLine == m.startLine && m.endCharacter < m.startCharacter)) return;
                 if (!m.line || !m.column || m.keyword.empty() || m.keyword.size() > 1048576 || m.context.size() > 1048576 || m.text.size() != m.keyword.size() || m.byteOffset > std::numeric_limits<size_t>::max() - m.keyword.size()) return;
                 total += sizeof(Match) + m.file.capacity() + m.keyword.capacity() + m.context.capacity() + m.text.capacity();
                 if (total > budget) return;
@@ -82,7 +84,7 @@ class SearchSession {
     }
 public:
     size_t scannedFiles = 0, cacheHits = 0, scannedBytes = 0, retainedBytes = 0, evictedFiles = 0;
-    std::vector<Match> scan(const Options& options, const std::vector<std::string>& words) {
+    std::vector<Match> scan(const Options& options, const std::vector<std::string>& words) try {
         scannedFiles = cacheHits = scannedBytes = 0;
         std::ostringstream identity;
         identity << std::quoted(std::filesystem::absolute(options.root).lexically_normal().string()) << ' ' << options.ignoreCase << options.wholeWord;
@@ -119,8 +121,18 @@ public:
                 jobs.push_back(std::async(std::launch::async, [&, file, hash] {
                     auto matches = searchFile(file, ac);
                     std::ifstream input(file, std::ios::binary);
+                    if (!input) {
+                        std::error_code error;
+                        if (!std::filesystem::exists(file, error) && !error) throw RetryScan("File disappeared during scan: " + file);
+                        throw std::runtime_error("Cannot read: " + file);
+                    }
                     std::string text((std::istreambuf_iterator<char>(input)), {});
                     if (input.bad()) throw std::runtime_error("Read failed: " + file);
+                    if (FileCache::fingerprint(file) != hash) throw RetryScan("File changed during scan: " + file);
+                    for (const auto& match : matches) {
+                        if (match.byteOffset > text.size() || match.keyword.size() > text.size() - match.byteOffset)
+                            throw RetryScan("File shrank during scan: " + file);
+                    }
                     if (options.wholeWord) {
                         auto wordChar = [](unsigned char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'; };
                         matches.erase(std::remove_if(matches.begin(), matches.end(), [&](const Match& m) {
@@ -136,7 +148,7 @@ public:
                         match.text = text.substr(match.byteOffset, match.keyword.size());
                     }
                     annotateRanges(matches, text);
-                    if (FileCache::fingerprint(file) != hash) throw std::runtime_error("File changed during scan; retry: " + file);
+                    if (FileCache::fingerprint(file) != hash) throw RetryScan("File changed during scan: " + file);
                     return Result{file, Entry{hash, std::move(matches)}};
                 }));
             }
@@ -153,5 +165,8 @@ public:
         }
         if (changedQuery || scannedFiles || previousEntries != entries.size()) saveSnapshot(options.cache);
         return results;
+    } catch (const std::filesystem::filesystem_error& error) {
+        if (error.code() == std::errc::no_such_file_or_directory) throw RetryScan(error.what());
+        throw;
     }
 };

@@ -13,13 +13,14 @@ build: mfind
 
 HEADERS := $(wildcard core/*.h helpers/*.h queues/*.h walkers/*.h workers/*.h tests/*.h)
 
-mfind: $(MFIND_SRCS) $(HEADERS)
+mfind: $(MFIND_SRCS) $(HEADERS) Makefile
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(MFIND_SRCS) -o mfind
 
-test: run_tests
+test: run_tests mfind
 	./run_tests
+	@for test in tests/test_*.py; do python3 "$$test" ./mfind || exit $$?; done
 
-run_tests: $(TEST_SRCS) $(HEADERS)
+run_tests: $(TEST_SRCS) $(HEADERS) Makefile
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(TEST_SRCS) -o run_tests
 
 clean:

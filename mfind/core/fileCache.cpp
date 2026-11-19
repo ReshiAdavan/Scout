@@ -1,9 +1,14 @@
 #include "fileCache.h"
+#include "../helpers/scanError.h"
 #include <fstream>
 #include <stdexcept>
 uint64_t FileCache::fingerprint(const std::string& path) {
     std::ifstream in(path, std::ios::binary);
-    if (!in) throw std::runtime_error("Cannot read: " + path);
+    if (!in) {
+        std::error_code error;
+        if (!std::filesystem::exists(path, error) && !error) throw RetryScan("File disappeared during scan: " + path);
+        throw std::runtime_error("Cannot read: " + path);
+    }
     uint64_t hash = 14695981039346656037ULL;
     char buffer[65536];
     while (in.read(buffer, sizeof buffer) || in.gcount()) {

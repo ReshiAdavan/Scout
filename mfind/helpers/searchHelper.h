@@ -6,6 +6,8 @@
 #include <vector>
 #include <functional>
 #include <stdexcept>
+#include <filesystem>
+#include "scanError.h"
 #include "../core/ahoCorasick.h"
 #include "formatHelper.h"
 #include "chunkScanner.h"
@@ -18,6 +20,8 @@ inline void searchFile(const std::string& filename,
                        size_t chunkSize = 8192) {
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open()) {
+        std::error_code error;
+        if (!std::filesystem::exists(filename, error) && !error) throw RetryScan("File disappeared during scan: " + filename);
         throw std::runtime_error("Cannot read: " + filename);
     }
 

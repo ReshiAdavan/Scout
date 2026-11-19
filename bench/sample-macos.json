@@ -1,0 +1,3530 @@
+{
+  "platform": "macOS-15.1-arm64-arm-64bit-Mach-O",
+  "python": "3.13.1",
+  "scale": 1,
+  "binary": "mfind/mfind",
+  "runs": [
+    {
+      "corpus": "small-files",
+      "mode": "all",
+      "cache": "cold",
+      "seconds": 0.019338334095664322,
+      "bytes": 7500,
+      "bytesPerSecond": 387830.71814244374,
+      "peakRssBytes": 2703360,
+      "matches": 500,
+      "stats": {
+        "occurrences": 500,
+        "matchingFiles": 50,
+        "scannedFiles": 50,
+        "cacheHits": 0,
+        "retainedIndexBytes": 173600,
+        "evictedFiles": 0,
+        "scannedBytes": 7500,
+        "elapsedMs": 6.08387,
+        "files": {
+          "data/0.txt": 10,
+          "data/1.txt": 10,
+          "data/10.txt": 10,
+          "data/11.txt": 10,
+          "data/12.txt": 10,
+          "data/13.txt": 10,
+          "data/14.txt": 10,
+          "data/15.txt": 10,
+          "data/16.txt": 10,
+          "data/17.txt": 10,
+          "data/18.txt": 10,
+          "data/19.txt": 10,
+          "data/2.txt": 10,
+          "data/20.txt": 10,
+          "data/21.txt": 10,
+          "data/22.txt": 10,
+          "data/23.txt": 10,
+          "data/24.txt": 10,
+          "data/25.txt": 10,
+          "data/26.txt": 10,
+          "data/27.txt": 10,
+          "data/28.txt": 10,
+          "data/29.txt": 10,
+          "data/3.txt": 10,
+          "data/30.txt": 10,
+          "data/31.txt": 10,
+          "data/32.txt": 10,
+          "data/33.txt": 10,
+          "data/34.txt": 10,
+          "data/35.txt": 10,
+          "data/36.txt": 10,
+          "data/37.txt": 10,
+          "data/38.txt": 10,
+          "data/39.txt": 10,
+          "data/4.txt": 10,
+          "data/40.txt": 10,
+          "data/41.txt": 10,
+          "data/42.txt": 10,
+          "data/43.txt": 10,
+          "data/44.txt": 10,
+          "data/45.txt": 10,
+          "data/46.txt": 10,
+          "data/47.txt": 10,
+          "data/48.txt": 10,
+          "data/49.txt": 10,
+          "data/5.txt": 10,
+          "data/6.txt": 10,
+          "data/7.txt": 10,
+          "data/8.txt": 10,
+          "data/9.txt": 10
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 500,
+            "files": 50
+          }
+        }
+      }
+    },
+    {
+      "corpus": "small-files",
+      "mode": "all",
+      "cache": "warm",
+      "seconds": 0.00870612496510148,
+      "bytes": 7500,
+      "bytesPerSecond": 861462.4795834846,
+      "peakRssBytes": 2228224,
+      "matches": 500,
+      "stats": {
+        "occurrences": 500,
+        "matchingFiles": 50,
+        "scannedFiles": 0,
+        "cacheHits": 50,
+        "retainedIndexBytes": 186000,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 4.91121,
+        "files": {
+          "data/0.txt": 10,
+          "data/1.txt": 10,
+          "data/10.txt": 10,
+          "data/11.txt": 10,
+          "data/12.txt": 10,
+          "data/13.txt": 10,
+          "data/14.txt": 10,
+          "data/15.txt": 10,
+          "data/16.txt": 10,
+          "data/17.txt": 10,
+          "data/18.txt": 10,
+          "data/19.txt": 10,
+          "data/2.txt": 10,
+          "data/20.txt": 10,
+          "data/21.txt": 10,
+          "data/22.txt": 10,
+          "data/23.txt": 10,
+          "data/24.txt": 10,
+          "data/25.txt": 10,
+          "data/26.txt": 10,
+          "data/27.txt": 10,
+          "data/28.txt": 10,
+          "data/29.txt": 10,
+          "data/3.txt": 10,
+          "data/30.txt": 10,
+          "data/31.txt": 10,
+          "data/32.txt": 10,
+          "data/33.txt": 10,
+          "data/34.txt": 10,
+          "data/35.txt": 10,
+          "data/36.txt": 10,
+          "data/37.txt": 10,
+          "data/38.txt": 10,
+          "data/39.txt": 10,
+          "data/4.txt": 10,
+          "data/40.txt": 10,
+          "data/41.txt": 10,
+          "data/42.txt": 10,
+          "data/43.txt": 10,
+          "data/44.txt": 10,
+          "data/45.txt": 10,
+          "data/46.txt": 10,
+          "data/47.txt": 10,
+          "data/48.txt": 10,
+          "data/49.txt": 10,
+          "data/5.txt": 10,
+          "data/6.txt": 10,
+          "data/7.txt": 10,
+          "data/8.txt": 10,
+          "data/9.txt": 10
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 500,
+            "files": 50
+          }
+        }
+      }
+    },
+    {
+      "corpus": "small-files",
+      "mode": "longest-per-start",
+      "cache": "cold",
+      "seconds": 0.010014290921390057,
+      "bytes": 7500,
+      "bytesPerSecond": 748929.7104381451,
+      "peakRssBytes": 2719744,
+      "matches": 500,
+      "stats": {
+        "occurrences": 500,
+        "matchingFiles": 50,
+        "scannedFiles": 50,
+        "cacheHits": 0,
+        "retainedIndexBytes": 173600,
+        "evictedFiles": 0,
+        "scannedBytes": 7500,
+        "elapsedMs": 6.01383,
+        "files": {
+          "data/0.txt": 10,
+          "data/1.txt": 10,
+          "data/10.txt": 10,
+          "data/11.txt": 10,
+          "data/12.txt": 10,
+          "data/13.txt": 10,
+          "data/14.txt": 10,
+          "data/15.txt": 10,
+          "data/16.txt": 10,
+          "data/17.txt": 10,
+          "data/18.txt": 10,
+          "data/19.txt": 10,
+          "data/2.txt": 10,
+          "data/20.txt": 10,
+          "data/21.txt": 10,
+          "data/22.txt": 10,
+          "data/23.txt": 10,
+          "data/24.txt": 10,
+          "data/25.txt": 10,
+          "data/26.txt": 10,
+          "data/27.txt": 10,
+          "data/28.txt": 10,
+          "data/29.txt": 10,
+          "data/3.txt": 10,
+          "data/30.txt": 10,
+          "data/31.txt": 10,
+          "data/32.txt": 10,
+          "data/33.txt": 10,
+          "data/34.txt": 10,
+          "data/35.txt": 10,
+          "data/36.txt": 10,
+          "data/37.txt": 10,
+          "data/38.txt": 10,
+          "data/39.txt": 10,
+          "data/4.txt": 10,
+          "data/40.txt": 10,
+          "data/41.txt": 10,
+          "data/42.txt": 10,
+          "data/43.txt": 10,
+          "data/44.txt": 10,
+          "data/45.txt": 10,
+          "data/46.txt": 10,
+          "data/47.txt": 10,
+          "data/48.txt": 10,
+          "data/49.txt": 10,
+          "data/5.txt": 10,
+          "data/6.txt": 10,
+          "data/7.txt": 10,
+          "data/8.txt": 10,
+          "data/9.txt": 10
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 500,
+            "files": 50
+          }
+        }
+      }
+    },
+    {
+      "corpus": "small-files",
+      "mode": "longest-per-start",
+      "cache": "warm",
+      "seconds": 0.009136458043940365,
+      "bytes": 7500,
+      "bytesPerSecond": 820887.0400246927,
+      "peakRssBytes": 2293760,
+      "matches": 500,
+      "stats": {
+        "occurrences": 500,
+        "matchingFiles": 50,
+        "scannedFiles": 0,
+        "cacheHits": 50,
+        "retainedIndexBytes": 186000,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 4.97996,
+        "files": {
+          "data/0.txt": 10,
+          "data/1.txt": 10,
+          "data/10.txt": 10,
+          "data/11.txt": 10,
+          "data/12.txt": 10,
+          "data/13.txt": 10,
+          "data/14.txt": 10,
+          "data/15.txt": 10,
+          "data/16.txt": 10,
+          "data/17.txt": 10,
+          "data/18.txt": 10,
+          "data/19.txt": 10,
+          "data/2.txt": 10,
+          "data/20.txt": 10,
+          "data/21.txt": 10,
+          "data/22.txt": 10,
+          "data/23.txt": 10,
+          "data/24.txt": 10,
+          "data/25.txt": 10,
+          "data/26.txt": 10,
+          "data/27.txt": 10,
+          "data/28.txt": 10,
+          "data/29.txt": 10,
+          "data/3.txt": 10,
+          "data/30.txt": 10,
+          "data/31.txt": 10,
+          "data/32.txt": 10,
+          "data/33.txt": 10,
+          "data/34.txt": 10,
+          "data/35.txt": 10,
+          "data/36.txt": 10,
+          "data/37.txt": 10,
+          "data/38.txt": 10,
+          "data/39.txt": 10,
+          "data/4.txt": 10,
+          "data/40.txt": 10,
+          "data/41.txt": 10,
+          "data/42.txt": 10,
+          "data/43.txt": 10,
+          "data/44.txt": 10,
+          "data/45.txt": 10,
+          "data/46.txt": 10,
+          "data/47.txt": 10,
+          "data/48.txt": 10,
+          "data/49.txt": 10,
+          "data/5.txt": 10,
+          "data/6.txt": 10,
+          "data/7.txt": 10,
+          "data/8.txt": 10,
+          "data/9.txt": 10
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 500,
+            "files": 50
+          }
+        }
+      }
+    },
+    {
+      "corpus": "small-files",
+      "mode": "leftmost-longest",
+      "cache": "cold",
+      "seconds": 0.010309582925401628,
+      "bytes": 7500,
+      "bytesPerSecond": 727478.5075466885,
+      "peakRssBytes": 2719744,
+      "matches": 500,
+      "stats": {
+        "occurrences": 500,
+        "matchingFiles": 50,
+        "scannedFiles": 50,
+        "cacheHits": 0,
+        "retainedIndexBytes": 173600,
+        "evictedFiles": 0,
+        "scannedBytes": 7500,
+        "elapsedMs": 6.27592,
+        "files": {
+          "data/0.txt": 10,
+          "data/1.txt": 10,
+          "data/10.txt": 10,
+          "data/11.txt": 10,
+          "data/12.txt": 10,
+          "data/13.txt": 10,
+          "data/14.txt": 10,
+          "data/15.txt": 10,
+          "data/16.txt": 10,
+          "data/17.txt": 10,
+          "data/18.txt": 10,
+          "data/19.txt": 10,
+          "data/2.txt": 10,
+          "data/20.txt": 10,
+          "data/21.txt": 10,
+          "data/22.txt": 10,
+          "data/23.txt": 10,
+          "data/24.txt": 10,
+          "data/25.txt": 10,
+          "data/26.txt": 10,
+          "data/27.txt": 10,
+          "data/28.txt": 10,
+          "data/29.txt": 10,
+          "data/3.txt": 10,
+          "data/30.txt": 10,
+          "data/31.txt": 10,
+          "data/32.txt": 10,
+          "data/33.txt": 10,
+          "data/34.txt": 10,
+          "data/35.txt": 10,
+          "data/36.txt": 10,
+          "data/37.txt": 10,
+          "data/38.txt": 10,
+          "data/39.txt": 10,
+          "data/4.txt": 10,
+          "data/40.txt": 10,
+          "data/41.txt": 10,
+          "data/42.txt": 10,
+          "data/43.txt": 10,
+          "data/44.txt": 10,
+          "data/45.txt": 10,
+          "data/46.txt": 10,
+          "data/47.txt": 10,
+          "data/48.txt": 10,
+          "data/49.txt": 10,
+          "data/5.txt": 10,
+          "data/6.txt": 10,
+          "data/7.txt": 10,
+          "data/8.txt": 10,
+          "data/9.txt": 10
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 500,
+            "files": 50
+          }
+        }
+      }
+    },
+    {
+      "corpus": "small-files",
+      "mode": "leftmost-longest",
+      "cache": "warm",
+      "seconds": 0.008742084028199315,
+      "bytes": 7500,
+      "bytesPerSecond": 857919.0014425933,
+      "peakRssBytes": 2228224,
+      "matches": 500,
+      "stats": {
+        "occurrences": 500,
+        "matchingFiles": 50,
+        "scannedFiles": 0,
+        "cacheHits": 50,
+        "retainedIndexBytes": 186000,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 4.93458,
+        "files": {
+          "data/0.txt": 10,
+          "data/1.txt": 10,
+          "data/10.txt": 10,
+          "data/11.txt": 10,
+          "data/12.txt": 10,
+          "data/13.txt": 10,
+          "data/14.txt": 10,
+          "data/15.txt": 10,
+          "data/16.txt": 10,
+          "data/17.txt": 10,
+          "data/18.txt": 10,
+          "data/19.txt": 10,
+          "data/2.txt": 10,
+          "data/20.txt": 10,
+          "data/21.txt": 10,
+          "data/22.txt": 10,
+          "data/23.txt": 10,
+          "data/24.txt": 10,
+          "data/25.txt": 10,
+          "data/26.txt": 10,
+          "data/27.txt": 10,
+          "data/28.txt": 10,
+          "data/29.txt": 10,
+          "data/3.txt": 10,
+          "data/30.txt": 10,
+          "data/31.txt": 10,
+          "data/32.txt": 10,
+          "data/33.txt": 10,
+          "data/34.txt": 10,
+          "data/35.txt": 10,
+          "data/36.txt": 10,
+          "data/37.txt": 10,
+          "data/38.txt": 10,
+          "data/39.txt": 10,
+          "data/4.txt": 10,
+          "data/40.txt": 10,
+          "data/41.txt": 10,
+          "data/42.txt": 10,
+          "data/43.txt": 10,
+          "data/44.txt": 10,
+          "data/45.txt": 10,
+          "data/46.txt": 10,
+          "data/47.txt": 10,
+          "data/48.txt": 10,
+          "data/49.txt": 10,
+          "data/5.txt": 10,
+          "data/6.txt": 10,
+          "data/7.txt": 10,
+          "data/8.txt": 10,
+          "data/9.txt": 10
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 500,
+            "files": 50
+          }
+        }
+      }
+    },
+    {
+      "corpus": "large-file",
+      "mode": "all",
+      "cache": "cold",
+      "seconds": 0.006479875068180263,
+      "bytes": 262176,
+      "bytesPerSecond": 40460039.31270648,
+      "peakRssBytes": 2359296,
+      "matches": 32,
+      "stats": {
+        "occurrences": 32,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 10646,
+        "evictedFiles": 0,
+        "scannedBytes": 262176,
+        "elapsedMs": 3.10787,
+        "files": {
+          "data/large.txt": 32
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 32,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "large-file",
+      "mode": "all",
+      "cache": "warm",
+      "seconds": 0.0039056669920682907,
+      "bytes": 262176,
+      "bytesPerSecond": 67127074.71795021,
+      "peakRssBytes": 1458176,
+      "matches": 32,
+      "stats": {
+        "occurrences": 32,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 11358,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 0.750417,
+        "files": {
+          "data/large.txt": 32
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 32,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "large-file",
+      "mode": "longest-per-start",
+      "cache": "cold",
+      "seconds": 0.005935000022873282,
+      "bytes": 262176,
+      "bytesPerSecond": 44174557.538261645,
+      "peakRssBytes": 2506752,
+      "matches": 32,
+      "stats": {
+        "occurrences": 32,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 10646,
+        "evictedFiles": 0,
+        "scannedBytes": 262176,
+        "elapsedMs": 2.90071,
+        "files": {
+          "data/large.txt": 32
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 32,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "large-file",
+      "mode": "longest-per-start",
+      "cache": "warm",
+      "seconds": 0.0037578330375254154,
+      "bytes": 262176,
+      "bytesPerSecond": 69767868.1787966,
+      "peakRssBytes": 1507328,
+      "matches": 32,
+      "stats": {
+        "occurrences": 32,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 11358,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 0.746,
+        "files": {
+          "data/large.txt": 32
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 32,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "large-file",
+      "mode": "leftmost-longest",
+      "cache": "cold",
+      "seconds": 0.005872082896530628,
+      "bytes": 262176,
+      "bytesPerSecond": 44647871.056946434,
+      "peakRssBytes": 2506752,
+      "matches": 32,
+      "stats": {
+        "occurrences": 32,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 10646,
+        "evictedFiles": 0,
+        "scannedBytes": 262176,
+        "elapsedMs": 2.93463,
+        "files": {
+          "data/large.txt": 32
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 32,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "large-file",
+      "mode": "leftmost-longest",
+      "cache": "warm",
+      "seconds": 0.0037797499680891633,
+      "bytes": 262176,
+      "bytesPerSecond": 69363318.26534599,
+      "peakRssBytes": 1474560,
+      "matches": 32,
+      "stats": {
+        "occurrences": 32,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 11358,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 0.708209,
+        "files": {
+          "data/large.txt": 32
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "bab": {
+            "occurrences": 0,
+            "files": 0
+          },
+          "foo": {
+            "occurrences": 32,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "dense",
+      "mode": "all",
+      "cache": "cold",
+      "seconds": 0.012253749999217689,
+      "bytes": 4000,
+      "bytesPerSecond": 326430.6845051817,
+      "peakRssBytes": 5128192,
+      "matches": 2500,
+      "stats": {
+        "occurrences": 2500,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 862066,
+        "evictedFiles": 0,
+        "scannedBytes": 4000,
+        "elapsedMs": 8.98642,
+        "files": {
+          "data/dense.txt": 2500
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 1500,
+            "files": 1
+          },
+          "bab": {
+            "occurrences": 1000,
+            "files": 1
+          },
+          "foo": {
+            "occurrences": 0,
+            "files": 0
+          }
+        }
+      }
+    },
+    {
+      "corpus": "dense",
+      "mode": "all",
+      "cache": "warm",
+      "seconds": 0.015090459026396275,
+      "bytes": 4000,
+      "bytesPerSecond": 265068.14623751264,
+      "peakRssBytes": 4718592,
+      "matches": 2500,
+      "stats": {
+        "occurrences": 2500,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 922050,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 10.7213,
+        "files": {
+          "data/dense.txt": 2500
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 1500,
+            "files": 1
+          },
+          "bab": {
+            "occurrences": 1000,
+            "files": 1
+          },
+          "foo": {
+            "occurrences": 0,
+            "files": 0
+          }
+        }
+      }
+    },
+    {
+      "corpus": "dense",
+      "mode": "longest-per-start",
+      "cache": "cold",
+      "seconds": 0.013989540981128812,
+      "bytes": 4000,
+      "bytesPerSecond": 285927.8946604323,
+      "peakRssBytes": 5996544,
+      "matches": 2500,
+      "stats": {
+        "occurrences": 2500,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 862066,
+        "evictedFiles": 0,
+        "scannedBytes": 4000,
+        "elapsedMs": 9.42287,
+        "files": {
+          "data/dense.txt": 2500
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 1500,
+            "files": 1
+          },
+          "bab": {
+            "occurrences": 1000,
+            "files": 1
+          },
+          "foo": {
+            "occurrences": 0,
+            "files": 0
+          }
+        }
+      }
+    },
+    {
+      "corpus": "dense",
+      "mode": "longest-per-start",
+      "cache": "warm",
+      "seconds": 0.015089708031155169,
+      "bytes": 4000,
+      "bytesPerSecond": 265081.33833612595,
+      "peakRssBytes": 5111808,
+      "matches": 2500,
+      "stats": {
+        "occurrences": 2500,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 922050,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 11.1097,
+        "files": {
+          "data/dense.txt": 2500
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 1500,
+            "files": 1
+          },
+          "bab": {
+            "occurrences": 1000,
+            "files": 1
+          },
+          "foo": {
+            "occurrences": 0,
+            "files": 0
+          }
+        }
+      }
+    },
+    {
+      "corpus": "dense",
+      "mode": "leftmost-longest",
+      "cache": "cold",
+      "seconds": 0.010255500092171133,
+      "bytes": 4000,
+      "bytesPerSecond": 390034.61206670257,
+      "peakRssBytes": 5046272,
+      "matches": 1000,
+      "stats": {
+        "occurrences": 1000,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 862066,
+        "evictedFiles": 0,
+        "scannedBytes": 4000,
+        "elapsedMs": 5.79267,
+        "files": {
+          "data/dense.txt": 1000
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 500,
+            "files": 1
+          },
+          "bab": {
+            "occurrences": 500,
+            "files": 1
+          },
+          "foo": {
+            "occurrences": 0,
+            "files": 0
+          }
+        }
+      }
+    },
+    {
+      "corpus": "dense",
+      "mode": "leftmost-longest",
+      "cache": "warm",
+      "seconds": 0.011726792086847126,
+      "bytes": 4000,
+      "bytesPerSecond": 341099.2512169151,
+      "peakRssBytes": 5095424,
+      "matches": 1000,
+      "stats": {
+        "occurrences": 1000,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 922050,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 7.68987,
+        "files": {
+          "data/dense.txt": 1000
+        },
+        "keywords": {
+          "aba": {
+            "occurrences": 500,
+            "files": 1
+          },
+          "bab": {
+            "occurrences": 500,
+            "files": 1
+          },
+          "foo": {
+            "occurrences": 0,
+            "files": 0
+          }
+        }
+      }
+    },
+    {
+      "corpus": "many-patterns",
+      "mode": "all",
+      "cache": "cold",
+      "seconds": 0.005061041912995279,
+      "bytes": 1099,
+      "bytesPerSecond": 217148.96238620128,
+      "peakRssBytes": 1703936,
+      "matches": 100,
+      "stats": {
+        "occurrences": 100,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 35266,
+        "evictedFiles": 0,
+        "scannedBytes": 1099,
+        "elapsedMs": 0.9595,
+        "files": {
+          "data/patterns.txt": 100
+        },
+        "keywords": {
+          "pattern000": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern001": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern002": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern003": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern004": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern005": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern006": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern007": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern008": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern009": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern010": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern011": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern012": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern013": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern014": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern015": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern016": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern017": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern018": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern019": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern020": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern021": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern022": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern023": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern024": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern025": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern026": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern027": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern028": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern029": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern030": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern031": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern032": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern033": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern034": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern035": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern036": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern037": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern038": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern039": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern040": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern041": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern042": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern043": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern044": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern045": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern046": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern047": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern048": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern049": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern050": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern051": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern052": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern053": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern054": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern055": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern056": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern057": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern058": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern059": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern060": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern061": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern062": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern063": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern064": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern065": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern066": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern067": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern068": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern069": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern070": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern071": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern072": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern073": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern074": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern075": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern076": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern077": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern078": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern079": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern080": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern081": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern082": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern083": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern084": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern085": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern086": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern087": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern088": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern089": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern090": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern091": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern092": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern093": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern094": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern095": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern096": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern097": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern098": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern099": {
+            "occurrences": 1,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "many-patterns",
+      "mode": "all",
+      "cache": "warm",
+      "seconds": 0.0050015830202028155,
+      "bytes": 1099,
+      "bytesPerSecond": 219730.43245724935,
+      "peakRssBytes": 1589248,
+      "matches": 100,
+      "stats": {
+        "occurrences": 100,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 36882,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 0.851583,
+        "files": {
+          "data/patterns.txt": 100
+        },
+        "keywords": {
+          "pattern000": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern001": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern002": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern003": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern004": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern005": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern006": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern007": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern008": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern009": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern010": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern011": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern012": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern013": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern014": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern015": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern016": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern017": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern018": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern019": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern020": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern021": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern022": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern023": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern024": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern025": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern026": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern027": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern028": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern029": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern030": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern031": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern032": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern033": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern034": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern035": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern036": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern037": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern038": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern039": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern040": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern041": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern042": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern043": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern044": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern045": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern046": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern047": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern048": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern049": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern050": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern051": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern052": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern053": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern054": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern055": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern056": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern057": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern058": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern059": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern060": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern061": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern062": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern063": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern064": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern065": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern066": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern067": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern068": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern069": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern070": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern071": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern072": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern073": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern074": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern075": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern076": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern077": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern078": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern079": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern080": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern081": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern082": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern083": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern084": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern085": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern086": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern087": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern088": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern089": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern090": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern091": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern092": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern093": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern094": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern095": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern096": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern097": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern098": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern099": {
+            "occurrences": 1,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "many-patterns",
+      "mode": "longest-per-start",
+      "cache": "cold",
+      "seconds": 0.004808041034266353,
+      "bytes": 1099,
+      "bytesPerSecond": 228575.42025277115,
+      "peakRssBytes": 1687552,
+      "matches": 100,
+      "stats": {
+        "occurrences": 100,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 35266,
+        "evictedFiles": 0,
+        "scannedBytes": 1099,
+        "elapsedMs": 0.845625,
+        "files": {
+          "data/patterns.txt": 100
+        },
+        "keywords": {
+          "pattern000": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern001": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern002": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern003": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern004": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern005": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern006": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern007": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern008": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern009": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern010": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern011": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern012": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern013": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern014": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern015": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern016": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern017": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern018": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern019": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern020": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern021": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern022": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern023": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern024": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern025": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern026": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern027": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern028": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern029": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern030": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern031": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern032": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern033": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern034": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern035": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern036": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern037": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern038": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern039": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern040": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern041": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern042": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern043": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern044": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern045": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern046": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern047": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern048": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern049": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern050": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern051": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern052": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern053": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern054": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern055": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern056": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern057": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern058": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern059": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern060": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern061": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern062": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern063": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern064": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern065": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern066": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern067": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern068": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern069": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern070": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern071": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern072": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern073": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern074": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern075": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern076": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern077": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern078": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern079": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern080": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern081": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern082": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern083": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern084": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern085": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern086": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern087": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern088": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern089": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern090": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern091": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern092": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern093": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern094": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern095": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern096": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern097": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern098": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern099": {
+            "occurrences": 1,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "many-patterns",
+      "mode": "longest-per-start",
+      "cache": "warm",
+      "seconds": 0.004600166925229132,
+      "bytes": 1099,
+      "bytesPerSecond": 238904.37409404645,
+      "peakRssBytes": 1622016,
+      "matches": 100,
+      "stats": {
+        "occurrences": 100,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 36882,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 0.873625,
+        "files": {
+          "data/patterns.txt": 100
+        },
+        "keywords": {
+          "pattern000": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern001": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern002": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern003": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern004": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern005": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern006": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern007": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern008": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern009": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern010": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern011": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern012": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern013": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern014": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern015": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern016": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern017": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern018": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern019": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern020": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern021": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern022": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern023": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern024": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern025": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern026": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern027": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern028": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern029": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern030": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern031": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern032": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern033": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern034": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern035": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern036": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern037": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern038": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern039": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern040": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern041": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern042": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern043": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern044": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern045": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern046": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern047": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern048": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern049": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern050": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern051": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern052": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern053": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern054": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern055": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern056": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern057": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern058": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern059": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern060": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern061": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern062": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern063": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern064": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern065": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern066": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern067": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern068": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern069": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern070": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern071": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern072": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern073": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern074": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern075": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern076": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern077": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern078": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern079": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern080": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern081": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern082": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern083": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern084": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern085": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern086": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern087": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern088": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern089": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern090": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern091": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern092": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern093": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern094": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern095": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern096": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern097": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern098": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern099": {
+            "occurrences": 1,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "many-patterns",
+      "mode": "leftmost-longest",
+      "cache": "cold",
+      "seconds": 0.004654958960600197,
+      "bytes": 1099,
+      "bytesPerSecond": 236092.30700033886,
+      "peakRssBytes": 1720320,
+      "matches": 100,
+      "stats": {
+        "occurrences": 100,
+        "matchingFiles": 1,
+        "scannedFiles": 1,
+        "cacheHits": 0,
+        "retainedIndexBytes": 35266,
+        "evictedFiles": 0,
+        "scannedBytes": 1099,
+        "elapsedMs": 0.83375,
+        "files": {
+          "data/patterns.txt": 100
+        },
+        "keywords": {
+          "pattern000": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern001": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern002": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern003": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern004": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern005": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern006": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern007": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern008": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern009": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern010": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern011": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern012": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern013": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern014": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern015": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern016": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern017": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern018": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern019": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern020": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern021": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern022": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern023": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern024": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern025": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern026": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern027": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern028": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern029": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern030": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern031": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern032": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern033": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern034": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern035": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern036": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern037": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern038": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern039": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern040": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern041": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern042": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern043": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern044": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern045": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern046": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern047": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern048": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern049": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern050": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern051": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern052": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern053": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern054": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern055": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern056": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern057": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern058": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern059": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern060": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern061": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern062": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern063": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern064": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern065": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern066": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern067": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern068": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern069": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern070": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern071": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern072": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern073": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern074": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern075": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern076": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern077": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern078": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern079": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern080": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern081": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern082": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern083": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern084": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern085": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern086": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern087": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern088": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern089": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern090": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern091": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern092": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern093": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern094": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern095": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern096": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern097": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern098": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern099": {
+            "occurrences": 1,
+            "files": 1
+          }
+        }
+      }
+    },
+    {
+      "corpus": "many-patterns",
+      "mode": "leftmost-longest",
+      "cache": "warm",
+      "seconds": 0.0046001250157132745,
+      "bytes": 1099,
+      "bytesPerSecond": 238906.5506363405,
+      "peakRssBytes": 1654784,
+      "matches": 100,
+      "stats": {
+        "occurrences": 100,
+        "matchingFiles": 1,
+        "scannedFiles": 0,
+        "cacheHits": 1,
+        "retainedIndexBytes": 36882,
+        "evictedFiles": 0,
+        "scannedBytes": 0,
+        "elapsedMs": 0.862167,
+        "files": {
+          "data/patterns.txt": 100
+        },
+        "keywords": {
+          "pattern000": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern001": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern002": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern003": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern004": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern005": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern006": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern007": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern008": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern009": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern010": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern011": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern012": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern013": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern014": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern015": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern016": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern017": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern018": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern019": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern020": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern021": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern022": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern023": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern024": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern025": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern026": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern027": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern028": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern029": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern030": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern031": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern032": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern033": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern034": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern035": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern036": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern037": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern038": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern039": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern040": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern041": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern042": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern043": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern044": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern045": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern046": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern047": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern048": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern049": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern050": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern051": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern052": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern053": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern054": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern055": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern056": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern057": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern058": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern059": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern060": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern061": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern062": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern063": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern064": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern065": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern066": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern067": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern068": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern069": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern070": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern071": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern072": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern073": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern074": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern075": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern076": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern077": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern078": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern079": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern080": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern081": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern082": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern083": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern084": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern085": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern086": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern087": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern088": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern089": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern090": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern091": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern092": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern093": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern094": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern095": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern096": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern097": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern098": {
+            "occurrences": 1,
+            "files": 1
+          },
+          "pattern099": {
+            "occurrences": 1,
+            "files": 1
+          }
+        }
+      }
+    }
+  ],
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)",
+  "watch": {
+    "pollMs": 50,
+    "changeLatencyMs": [
+      52.0174999255687,
+      55.446958052925766,
+      55.179874994792044,
+      55.687166983261704,
+      53.986874991096556,
+      55.01379107590765
+    ]
+  }
+}

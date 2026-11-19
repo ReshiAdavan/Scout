@@ -35,3 +35,6 @@
 mfind/data/*
 mfind/mfind
 .vscode/
+# Local test and cache artifacts
+mfind/run_tests
+.cache/

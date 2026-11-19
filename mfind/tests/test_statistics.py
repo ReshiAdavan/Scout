@@ -3,7 +3,7 @@ binary=str(pathlib.Path(sys.argv[1]).resolve())
 with tempfile.TemporaryDirectory() as directory:
     root=pathlib.Path(directory); (root/'data').mkdir(); (root/'keywords.txt').write_text('foo\nbar\nabsent\n')
     (root/'data'/'a').write_text('foo foo bar'); (root/'data'/'b').write_text('foo')
-    def run(*args): return subprocess.run([binary,'data','--format','json','--stats',*args],cwd=root,text=True,capture_output=True)
+    def run(*args): return subprocess.run([binary,'data','--format','json','--stats',*args],cwd=root,text=True,capture_output=True,timeout=15)
     result=run('--require-all','foo','--require-all','bar'); assert result.returncode==0,result.stderr
     matches=json.loads(result.stdout)['matches']; stats=json.loads(result.stderr)['statistics']
     assert len(matches)==stats['occurrences']==3 and stats['matchingFiles']==1,stats

@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [main, 'SC-*']
+  pull_request:
+    branches: [main, 'SC-*']
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: make -C mfind test
+      - name: Correctness-checked benchmark smoke run
+        run: python3 bench/benchmark.py > benchmark-results.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-${{ matrix.os }}
+          path: benchmark-results.json

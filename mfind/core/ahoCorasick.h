@@ -2,6 +2,7 @@
 #define AHOCORASICK_H
 
 #include <unordered_map>
+#include <algorithm>
 #include <vector>
 #include <queue>
 #include <string>

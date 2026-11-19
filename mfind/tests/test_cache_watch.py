@@ -5,7 +5,7 @@ with tempfile.TemporaryDirectory() as directory:
     target=root/'data'/'a'; target.write_text('foo')
     args=[binary,'data','--format','json','--stats','--cache','.cache/index']
     def run():
-        r=subprocess.run(args,cwd=root,text=True,capture_output=True); assert r.returncode==0,r.stderr
+        r=subprocess.run(args,cwd=root,text=True,capture_output=True,timeout=15); assert r.returncode==0,r.stderr
         return json.loads(r.stdout),json.loads(r.stderr)['statistics']
     cold,cs=run(); warm,ws=run(); assert cold==warm and cs['scannedFiles']==1 and ws['cacheHits']==1,(cs,ws)
     (root/'.cache'/'index').write_bytes(b'SCOUT2 truncated')
@@ -15,6 +15,7 @@ with tempfile.TemporaryDirectory() as directory:
         def wait_events(n):
             deadline=time.monotonic()+5
             while time.monotonic()<deadline:
+                if proc.poll() is not None: raise AssertionError('Watcher exited: '+proc.stderr.read())
                 lines=(root/'events').read_text().splitlines()
                 if len(lines)>=n:return [json.loads(x) for x in lines]
                 time.sleep(.05)

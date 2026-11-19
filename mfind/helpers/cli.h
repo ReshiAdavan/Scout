@@ -4,7 +4,7 @@
 #include <vector>
 struct Options {
     std::string root = ".", keywords = "keywords.txt", color = "auto", format = "text";
-    bool watch = false, help = false, version = false;
+    bool watch = false, help = false, version = false, ignoreCase = false, wholeWord = false;
     size_t threads = 4, pollMs = 1000;
     std::vector<std::string> extensions;
 };
@@ -21,6 +21,8 @@ inline Options parseOptions(int argc, char** argv) {
         auto value = [&]() -> std::string { if (++i >= argc) throw std::runtime_error("Missing value for " + arg); return argv[i]; };
         if (!positional && arg == "--") positional = true;
         else if (!positional && arg == "--watch") options.watch = true;
+        else if (!positional && arg == "--ignore-case") options.ignoreCase = true;
+        else if (!positional && arg == "--whole-word") options.wholeWord = true;
         else if (!positional && arg == "--help") options.help = true;
         else if (!positional && arg == "--version") options.version = true;
         else if (!positional && arg == "--keywords") options.keywords = value();

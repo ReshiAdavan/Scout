@@ -88,3 +88,10 @@ TEST(AhoCorasick_RebuildIsIdempotent) {
     for (int i = 0; i < 10; ++i) { ac.build(); EXPECT_TRUE(ac.search("she") == expected); }
     ac.addKeyword("hers"); ac.build(); EXPECT_EQ(ac.search("ushers").size(), size_t(3));
 }
+
+TEST(AhoCorasick_CaseInsensitivePreservesPatternIdentity) {
+    AhoCorasick ac(true); ac.addKeyword("Foo"); ac.addKeyword("FOO"); ac.build();
+    auto matches = ac.search("xfoo FOO");
+    EXPECT_EQ(matches.size(), size_t(4));
+    EXPECT_EQ(matches[0].first, size_t(1)); EXPECT_EQ(matches[0].second, std::string("Foo"));
+}

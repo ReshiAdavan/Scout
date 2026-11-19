@@ -53,3 +53,15 @@ TEST(MatchIndex_TwoFilesIndependent) {
     EXPECT_EQ(idx.getMatchesForFile("b.txt").size(), (size_t)1);
     EXPECT_EQ(idx.getMatchesForKeyword("foo").size(), (size_t)2);
 }
+
+TEST(MatchIndex_RepeatedUpdateRefreshesContextWithoutDuplicates) {
+    MatchIndex idx;
+    idx.updateMatchesForFile("f", {{"f", 0, "foo", "old"}});
+    auto snapshot = idx.getMatchesForFile("f");
+    idx.updateMatchesForFile("f", {{"f", 0, "foo", "new"}, {"f", 0, "foo", "new"}});
+    EXPECT_EQ(idx.getMatchesForKeyword("foo").size(), size_t(1));
+    EXPECT_EQ(idx.getMatchesForKeyword("foo")[0].context, std::string("new"));
+    EXPECT_EQ(snapshot[0].context, std::string("old"));
+    idx.removeFile("f"); EXPECT_FALSE(idx.hasMatchesForFile("f"));
+    EXPECT_TRUE(idx.getMatchesForKeyword("foo").empty());
+}

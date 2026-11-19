@@ -4,17 +4,7 @@
 #include <iomanip>
 #include <sstream>
 #include <unistd.h>
-// Return valid UTF-8 sequence length; invalid bytes are represented individually.
-inline size_t utf8Length(const std::string& text, size_t i) {
-    unsigned char c = text[i];
-    if (c < 0x80) return 1;
-    size_t n = c >= 0xc2 && c <= 0xdf ? 2 : c >= 0xe0 && c <= 0xef ? 3 : c >= 0xf0 && c <= 0xf4 ? 4 : 0;
-    if (!n || i + n > text.size()) return 0;
-    for (size_t j = 1; j < n; ++j) if ((static_cast<unsigned char>(text[i+j]) & 0xc0) != 0x80) return 0;
-    const unsigned char second = text[i+1];
-    if ((c == 0xe0 && second < 0xa0) || (c == 0xed && second >= 0xa0) || (c == 0xf0 && second < 0x90) || (c == 0xf4 && second >= 0x90)) return 0;
-    return n;
-}
+#include "unicode.h"
 inline std::string jsonString(const std::string& value) {
     std::ostringstream out; out << '"';
     for (size_t i = 0; i < value.size();) {
@@ -36,8 +26,26 @@ inline std::string matchJson(const Match& m) {
            ",\"column\":" + std::to_string(m.column) + ",\"text\":" + jsonString(m.text) +
            ",\"context\":" + jsonString(m.context) + "}";
 }
+inline std::string fileUri(const std::string& path) {
+    std::ostringstream out; out << "file://";
+    for (unsigned char c : std::filesystem::absolute(path).lexically_normal().generic_string()) {
+        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || std::string("/-._~").find(c) != std::string::npos) out << c;
+        else out << '%' << std::uppercase << std::hex << std::setw(2) << std::setfill('0') << unsigned(c) << std::dec;
+    }
+    return out.str();
+}
+inline std::string locationJson(const Match& m) {
+    if (!m.validUtf8) throw std::runtime_error("LSP output requires UTF-8 codepoint boundaries: " + m.file);
+    return "{\"uri\":" + jsonString(fileUri(m.file)) + ",\"range\":{\"start\":{\"line\":" + std::to_string(m.startLine) +
+        ",\"character\":" + std::to_string(m.startCharacter) + "},\"end\":{\"line\":" + std::to_string(m.endLine) +
+        ",\"character\":" + std::to_string(m.endCharacter) + "}}}";
+}
 inline void printResults(const std::vector<Match>& matches, const Options& options, std::ostream& out = std::cout) {
     const bool color = options.color == "always" || (options.color == "auto" && isatty(STDOUT_FILENO));
+    if (options.format == "lsp") {
+        std::vector<std::string> locations; for (const auto& m : matches) locations.push_back(locationJson(m));
+        out << '['; for (size_t i = 0; i < locations.size(); ++i) { if (i) out << ','; out << locations[i]; } out << "]\n"; out.flush(); return;
+    }
     if (options.format == "json") out << "{\"matches\":[";
     if (options.format == "csv") out << "file,keyword,byteOffset,line,column,text,context,id,tag\n";
     for (size_t i = 0; i < matches.size(); ++i) {

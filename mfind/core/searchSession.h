@@ -3,6 +3,7 @@
 #include "matchIndex.h"
 #include "../helpers/searchHelper.h"
 #include "../helpers/cli.h"
+#include "../helpers/ranges.h"
 #include <future>
 #include <map>
 #include <set>
@@ -40,14 +41,14 @@ class SearchSession {
         std::ifstream input(path, std::ios::binary);
         std::string magic, identity;
         size_t count = 0;
-        if (!(input >> magic >> std::quoted(identity) >> count) || magic != "SCOUT2" || identity != expected || count > 1000000) return;
+        if (!(input >> magic >> std::quoted(identity) >> count) || magic != "SCOUT3" || identity != expected || count > 1000000) return;
         std::map<std::string, Entry> loaded; size_t total = 0;
         for (size_t i = 0; i < count; ++i) {
             std::string file; Entry entry{}; size_t matches = 0;
             if (!(input >> std::quoted(file) >> entry.hash >> matches) || file.size() > 1048576 || matches > 1000000) return;
             for (size_t j = 0; j < matches; ++j) {
                 Match m; m.file = file;
-                if (!(input >> m.byteOffset >> m.line >> m.column >> std::quoted(m.keyword) >> std::quoted(m.context) >> std::quoted(m.text))) return;
+                if (!(input >> m.byteOffset >> m.line >> m.column >> std::quoted(m.keyword) >> std::quoted(m.context) >> std::quoted(m.text) >> m.startLine >> m.startCharacter >> m.endLine >> m.endCharacter >> m.validUtf8)) return;
                 if (!m.line || !m.column || m.keyword.empty() || m.keyword.size() > 1048576 || m.context.size() > 1048576 || m.text.size() != m.keyword.size() || m.byteOffset > std::numeric_limits<size_t>::max() - m.keyword.size()) return;
                 total += sizeof(Match) + m.file.capacity() + m.keyword.capacity() + m.context.capacity() + m.text.capacity();
                 if (total > budget) return;
@@ -70,10 +71,10 @@ class SearchSession {
         close(fd);
         try {
             std::ofstream out(name.data(), std::ios::binary);
-            out << "SCOUT2\n" << std::quoted(signature) << '\n' << entries.size() << '\n';
+            out << "SCOUT3\n" << std::quoted(signature) << '\n' << entries.size() << '\n';
             for (const auto& entry : entries) {
                 out << std::quoted(entry.first) << ' ' << entry.second.hash << ' ' << entry.second.matches.size() << '\n';
-                for (const auto& m : entry.second.matches) out << m.byteOffset << ' ' << m.line << ' ' << m.column << ' ' << std::quoted(m.keyword) << ' ' << std::quoted(m.context) << ' ' << std::quoted(m.text) << '\n';
+                for (const auto& m : entry.second.matches) out << m.byteOffset << ' ' << m.line << ' ' << m.column << ' ' << std::quoted(m.keyword) << ' ' << std::quoted(m.context) << ' ' << std::quoted(m.text) << ' ' << m.startLine << ' ' << m.startCharacter << ' ' << m.endLine << ' ' << m.endCharacter << ' ' << m.validUtf8 << '\n';
             }
             out.close(); if (!out) throw std::runtime_error("Cannot save cache snapshot");
             std::filesystem::rename(name.data(), path);
@@ -134,6 +135,7 @@ public:
                         match.line = line + 1; match.column = match.byteOffset - lines[line] + 1;
                         match.text = text.substr(match.byteOffset, match.keyword.size());
                     }
+                    annotateRanges(matches, text);
                     if (FileCache::fingerprint(file) != hash) throw std::runtime_error("File changed during scan; retry: " + file);
                     return Result{file, Entry{hash, std::move(matches)}};
                 }));

@@ -1,7 +1,7 @@
 #include "fileCache.h"
 
 FileCache::FileCache() {
-    load();
+    // Session-local cache: stale legacy metadata must not suppress startup scans.
 }
 
 bool FileCache::isChanged(const std::string& filePath) const {

@@ -1,6 +1,7 @@
 #include "test_framework.h"
 #include "../helpers/searchHelper.h"
 #include <filesystem>
+#include "../core/fileCache.h"
 #include <unistd.h>
 
 TEST(Search_ChunkBoundariesMatchWholeBuffer) {
@@ -33,4 +34,17 @@ TEST(Scanner_EmptyPatterns) {
     AhoCorasick ac; ac.build(); size_t count = 0;
     ChunkScanner::scan("abc", ac, [&](size_t, const std::string&, const std::string&) { ++count; });
     EXPECT_EQ(count, size_t(0));
+}
+
+TEST(FileCache_ConcurrentReadersAndWriters) {
+    char name[] = "/tmp/scout-cache-XXXXXX";
+    int fd = mkstemp(name); close(fd);
+    struct Cleanup { const char* path; ~Cleanup() { std::filesystem::remove(path); } } cleanup{name};
+    FileCache cache;
+    std::vector<std::thread> workers;
+    for (int i = 0; i < 8; ++i) workers.emplace_back([&] {
+        for (int j = 0; j < 1000; ++j) { cache.update(name); cache.isChanged(name); }
+    });
+    for (auto& worker : workers) worker.join();
+    EXPECT_FALSE(cache.isChanged(name));
 }

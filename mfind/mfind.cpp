@@ -8,6 +8,8 @@
 #include <csignal>
 #include <chrono>
 #include <thread>
+#include <memory>
+#include <set>
 #include "../core/ahoCorasick.h"
 #include "../core/fileCache.h"
 #include "../helpers/searchHelper.h"
@@ -18,16 +20,16 @@
 #include "queues/fileQueue.h"
 #include "workers/workerPool.h"
 
-std::atomic<bool> running = true;
+volatile std::sig_atomic_t running = 1;
 
 void signalHandler(int) {
-    std::cout << "\n[!] Caught signal. Shutting down...\n";
     running = false;
 }
 
 std::vector<std::string> loadKeywords(const std::string& path) {
     std::vector<std::string> result;
     std::ifstream file(path);
+    if (!file) throw std::runtime_error("Cannot read keywords: " + path);
     std::string line;
     while (std::getline(file, line)) {
         if (!line.empty()) result.push_back(line);
@@ -99,51 +101,46 @@ int main(int argc, char* argv[]) {
     std::string root = argv[1];
     std::string keywordFile = "keywords.txt";
 
-    AhoCorasick ac;
     FileCache cache;
     IgnoreRules ignore;
-    ignore.loadFromFile(); // .scoutignore
-
-    std::unordered_set<std::string> knownKeywords;
-    std::unordered_map<std::string, std::string> colorMap;
-
+    ignore.loadFromFile();
     MatchIndex matchIndex;
     std::mutex matchIndexMutex;
-
-    matchIndex.load(".match_index");
-
-    std::cout << "[+] Starting daemon mode. Watching '" << keywordFile << "'...\n";
-
-    while (running) {
-        auto loaded = loadKeywords(keywordFile);
-        auto newWords = diffKeywords(loaded, knownKeywords);
-        bool keywordSetChanged = !newWords.empty();
-        bool filesChanged = cache.hasChangedFiles(root, ignore);
-
-        if (keywordSetChanged || filesChanged) {
-            bool force = keywordSetChanged;
-            std::cout << "[*] Detected " << newWords.size() << " new keyword(s)...\n";
-            for (const auto& w : newWords) {
-                ac.addKeyword(w);
-                knownKeywords.insert(w);
+    std::unordered_map<std::string, std::string> colorMap;
+    std::vector<std::string> previousKeywords;
+    std::set<std::string> previousFiles;
+    bool first = true;
+    std::unique_ptr<AhoCorasick> ac;
+    // Rebuild the result index at startup. Legacy on-disk match data has no
+    // query/root identity and cannot safely be trusted across sessions.
+    try {
+        while (running) {
+            auto loaded = loadKeywords(keywordFile);
+            const bool changed = first || loaded != previousKeywords;
+            if (changed) {
+                ac = std::make_unique<AhoCorasick>();
+                std::unordered_set<std::string> unique;
+                for (const auto& word : loaded) if (unique.insert(word).second) ac->addKeyword(word);
+                ac->build();
+                colorMap = buildColorMap(loaded);
+                matchIndex.clear();
+                previousKeywords = loaded;
             }
-            ac.build(); // rebuild fail links
-
-            for (const auto& word : newWords) {
-                colorMap[word] = defaultColors[colorMap.size() % defaultColors.size()];
+            std::set<std::string> files;
+            for (const auto& entry : std::filesystem::recursive_directory_iterator(root)) {
+                if (entry.is_regular_file() && !ignore.shouldIgnore(entry.path())) files.insert(entry.path().string());
             }
-
-            runSearchRound(root, ac, cache, colorMap, ignore, matchIndex, matchIndexMutex, force);
-            cache.save();
+            for (const auto& file : previousFiles) if (!files.count(file)) matchIndex.removeFile(file);
+            if (changed || files != previousFiles || cache.hasChangedFiles(root, ignore)) {
+                runSearchRound(root, *ac, cache, colorMap, ignore, matchIndex, matchIndexMutex, changed);
+            }
+            previousFiles = std::move(files);
+            first = false;
+            for (int i = 0; i < 50 && running; ++i) std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
-
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+    } catch (const std::exception& error) {
+        std::cerr << error.what() << "\n";
+        return 2;
     }
-
-    std::cout << "[+] Done.\n";
-    
-    cache.save();
-    matchIndex.save(".match_index");
-    
     return 0;
 }

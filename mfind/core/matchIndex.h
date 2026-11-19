@@ -133,13 +133,13 @@ public:
                 keywordToMatches[match.keyword].push_back(match);
             }
         }
-        fileToMatches[file] = std::move(unique);
+        if (unique.empty()) fileToMatches.erase(file);
+        else fileToMatches[file] = std::move(unique);
     }
 
     void removeFile(const std::string& file) {
         updateMatchesForFile(file, {});
-        std::lock_guard<std::mutex> lock(mtx);
-        fileToMatches.erase(file);
+
     }
 
     std::vector<Match> getMatchesForKeyword(const std::string& keyword) const {

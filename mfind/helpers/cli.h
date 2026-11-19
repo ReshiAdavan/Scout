@@ -10,9 +10,9 @@
 struct KeywordRule { std::string id, tag, pattern; };
 struct Options {
     std::string root = ".", keywords = "keywords.txt", color = "auto", format = "text", matchMode = "all";
-    bool watch = false, help = false, version = false, ignoreCase = false, wholeWord = false;
+    bool watch = false, help = false, version = false, ignoreCase = false, wholeWord = false, stats = false;
     size_t threads = 4, pollMs = 1000;
-    std::vector<std::string> extensions;
+    std::vector<std::string> extensions, requireAll, requireAny;
     std::string config, profile;
     std::vector<KeywordRule> rules;
     std::set<std::string> explicitOptions;
@@ -36,6 +36,9 @@ inline Options parseOptions(int argc, char** argv) {
         else if (!positional && arg == "--whole-word") options.wholeWord = true;
         else if (!positional && arg == "--help") options.help = true;
         else if (!positional && arg == "--version") options.version = true;
+        else if (!positional && arg == "--stats") options.stats = true;
+        else if (!positional && arg == "--require-all") options.requireAll.push_back(value());
+        else if (!positional && arg == "--require-any") options.requireAny.push_back(value());
         else if (!positional && arg == "--config") options.config = value();
         else if (!positional && arg == "--profile") options.profile = value();
         else if (!positional && arg == "--keywords") options.keywords = value();
@@ -48,6 +51,7 @@ inline Options parseOptions(int argc, char** argv) {
         else if (!positional && arg.rfind("-", 0) == 0) throw std::runtime_error("Unknown option: " + arg);
         else { if (rootSeen) throw std::runtime_error("Only one root directory is supported"); options.root = arg; rootSeen = true; options.explicitOptions.insert("root"); }
     }
+    if (!options.requireAll.empty() && !options.requireAny.empty()) throw std::runtime_error("Choose --require-all or --require-any");
     applyProfile(options);
     if (options.color != "auto" && options.color != "always" && options.color != "never") throw std::runtime_error("Color must be auto, always, or never");
     if (options.format != "text" && options.format != "editor" && options.format != "json" && options.format != "jsonl" && options.format != "csv") throw std::runtime_error("Unknown output format: " + options.format);
